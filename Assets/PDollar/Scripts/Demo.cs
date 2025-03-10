@@ -32,7 +32,7 @@ namespace PDollarGestureRecognizer
 		void Start()
 		{
 			platform = Application.platform;
-			drawArea = new Rect(0, 0, Screen.width - Screen.width / 3, Screen.height);
+			drawArea = new Rect(0, 0, Screen.width - Screen.width / 2, Screen.height);
 
 			//Load pre-made gestures
 			TextAsset[] gesturesXml = Resources.LoadAll<TextAsset>("GestureSet/10-stylus-MEDIUM/");
@@ -40,7 +40,7 @@ namespace PDollarGestureRecognizer
 				trainingSet.Add(GestureIO.ReadGestureFromXML(gestureXml.text));
 
 			//Load user custom gestures
-			string[] filePaths = Directory.GetFiles(Application.persistentDataPath, "*.xml");
+			string[] filePaths = Directory.GetFiles(@"C:\Users\Alunos\My project\Assets\PDollar\Resources\GestureSet\10-stylus-MEDIUM", "*.xml");
 			foreach (string filePath in filePaths)
 				trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));
 		}
@@ -116,6 +116,8 @@ namespace PDollarGestureRecognizer
 
 				Gesture candidate = new Gesture(points.ToArray());
 				Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
+				// esta aqui meu querido filho copilot
+
 
 				message = gestureResult.GestureClass + " " + gestureResult.Score;
 			}
@@ -125,7 +127,7 @@ namespace PDollarGestureRecognizer
 
 			if (GUI.Button(new Rect(Screen.width - 50, 150, 50, 30), "Add") && points.Count > 0 && newGestureName != "")
 			{
-				string fileName = String.Format("{0}/{1}-{2}.xml", Application.persistentDataPath, newGestureName, DateTime.Now.ToFileTime());
+				string fileName = String.Format("{0}/{1}-{2}.xml", @"C:\Users\Alunos\My project\Assets\PDollar\Resources\GestureSet\10-stylus-MEDIUM", newGestureName, DateTime.Now.ToFileTime());
 
 #if !UNITY_WEBPLAYER
 				GestureIO.WriteGesture(points.ToArray(), newGestureName, fileName);
