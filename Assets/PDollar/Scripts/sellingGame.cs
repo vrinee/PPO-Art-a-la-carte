@@ -1,4 +1,4 @@
-﻿/* using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,7 +40,7 @@ namespace PDollarGestureRecognizer
 				trainingSet.Add(GestureIO.ReadGestureFromXML(gestureXml.text));
 
 			//Load user custom gestures
-			string[] filePaths = Directory.GetFiles(@"C:\Users\Alunos\My project\Assets\PDollar\Resources\GestureSet\10-stylus-MEDIUM", "*.xml");
+			string[] filePaths = Directory.GetFiles(Application.dataPath + @"/\PDollar\Resources\GestureSet\10-stylus-MEDIUM", "*.xml");
 			foreach (string filePath in filePaths)
 				trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));
 		}
@@ -86,7 +86,7 @@ namespace PDollarGestureRecognizer
 
 					++strokeId;
 
-					Transform tmpGesture = Instantiate(gestureOnScreenPrefab, transform.position, transform.rotation) as Transform;
+					Transform tmpGesture = Instantiate(gestureOnScreenPrefab, transform.position+ new Vector3(0,0,0), transform.rotation) as Transform;
 					currentGestureLineRenderer = tmpGesture.GetComponent<LineRenderer>();
 
 					gestureLinesRenderer.Add(currentGestureLineRenderer);
@@ -103,9 +103,10 @@ namespace PDollarGestureRecognizer
 				}
 			}
 		}
-
+	
 		void OnGUI()
 		{
+
 			GUI.Box(drawArea, "Draw Area");
 
 			GUI.Label(new Rect(10, Screen.height - 40, 500, 50), message);
@@ -127,7 +128,7 @@ namespace PDollarGestureRecognizer
 
 			if (GUI.Button(new Rect(Screen.width - 50, 150, 50, 30), "Add") && points.Count > 0 && newGestureName != "")
 			{
-				string fileName = String.Format("{0}/{1}-{2}.xml", @"C:\Users\Alunos\My project\Assets\PDollar\Resources\GestureSet\10-stylus-MEDIUM", newGestureName, DateTime.Now.ToFileTime());
+				string fileName = String.Format("{0}/{1}-{2}.xml", Application.dataPath + @"/\PDollar\Resources\GestureSet\10-stylus-MEDIUM", newGestureName, DateTime.Now.ToFileTime());
 
 #if !UNITY_WEBPLAYER
 				GestureIO.WriteGesture(points.ToArray(), newGestureName, fileName);
@@ -139,4 +140,4 @@ namespace PDollarGestureRecognizer
 			}
 		}
 	}
-} */
+}
