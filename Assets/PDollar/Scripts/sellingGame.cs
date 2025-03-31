@@ -1,4 +1,8 @@
-﻿/* using UnityEngine;
+﻿/*
+
+código original do assets
+
+ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -189,6 +193,33 @@ namespace PDollarGestureRecognizer
         public Button clearButton;     // coloca o botao (limpar) pela UI da unity
         public Text messageText;       // Drag a Text UI element to display messages
 
+        public Button StartButton;  // coloca o botao (começar) pela UI da unity
+
+        public GameObject Cliente; // prefab do cliente
+        private string[,] Clientes = {
+        {"pica","whirl","ball","T"}, // gestos
+        {"AdorableCutieChiikawa","SweetBabyHachiware2","SweetieMomonga","YahaUsagi"}
+        };
+
+        private GameObject newCliente; // cliente instanciado
+
+        private int money = 0; // dinheiro do usuario
+        private int moneyPerOrder = 100;
+        public Text moneyText; // texto que mostra o dinheiro
+
+        public Text chatBox; // caixa de texto do cliente
+
+        private GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        public void UpdateMoneyText(int money)
+        {
+            this.money = money; // Atualiza o valor do dinheiro
+            moneyText.text = "Dinheiro: " + this.money.ToString(); // Atualiza o texto do dinheiro
+        }
+
+        void sendMoney(){
+            gameManager.setMoney(money);
+
+        }
         void Start()
         {
             platform = Application.platform;
@@ -207,6 +238,7 @@ namespace PDollarGestureRecognizer
             // Add listeners to the buttons
             recognizeButton.onClick.AddListener(OnRecognizeButtonClick);
             clearButton.onClick.AddListener(OnClearButtonClick);
+            StartButton.onClick.AddListener(OnStartButtonClick);
         }
 
         void Update()
@@ -269,18 +301,34 @@ namespace PDollarGestureRecognizer
         void OnRecognizeButtonClick()
         {
             recognized = true;
-            wanted = "pica";
             Gesture candidate = new Gesture(points.ToArray());
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
 
             if (gestureResult.GestureClass == wanted)
             {
                 message = "Acertou";
+                money += moneyPerOrder; // Adiciona dinheiro ao usuário
+                moneyText.text = "Dinheiro: " + money.ToString(); // Atualiza o texto do dinheiro
+                moneyPerOrder = 100; // Reseta o dinheiro por pedido
+                chatBox.text = ""; // Limpa a caixa de texto do cliente
+                Destroy(newCliente); // Destroi o cliente após acertar
             }
             else
             {
                 message = "Errou";
+                moneyPerOrder -= 10; // Diminui o dinheiro por pedido
             }
+
+            points.Clear();
+
+            foreach (LineRenderer lineRenderer in gestureLinesRenderer)
+            {
+                lineRenderer.positionCount = 0;
+                Destroy(lineRenderer.gameObject);
+            }
+
+            gestureLinesRenderer.Clear();
+            strokeId = -1;
 
             // atualiza o texto na tela
             if (messageText != null)
@@ -304,6 +352,26 @@ namespace PDollarGestureRecognizer
             strokeId = -1;
 
             Debug.Log("Pq tá olhando o console? Meliante!");
+        }
+
+        void OnStartButtonClick()
+        {
+            // Instantiate the Cliente prefab
+            newCliente = Instantiate(Cliente, new Vector3(0, 0, 2), Quaternion.identity);
+
+            // Get the script attached to the Cliente prefab
+            ClientBehaviour clienteScript = newCliente.GetComponent<ClientBehaviour>();
+            if (clienteScript != null)
+            {
+                // Set the sprite and gesture name
+                clienteScript.SetSprite(Clientes[1, 0]); // Pass the sprite name
+                clienteScript.SetGestureName(Clientes[0, 1]); // Pass the gesture name
+                wanted = Clientes[0, 1]; // Set the wanted gesture
+            }
+            else
+            {
+                Debug.LogError("ClienteScript is not attached to the Cliente prefab!");
+            }
         }
     }
 }
