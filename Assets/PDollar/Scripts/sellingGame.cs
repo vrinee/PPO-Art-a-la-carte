@@ -1,8 +1,5 @@
-﻿/*
-
-código original do assets
-
- using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,160 +7,7 @@ using System.IO;
 
 namespace PDollarGestureRecognizer
 {
-	public class Demo : MonoBehaviour
-	{
-		public Transform gestureOnScreenPrefab;
-
-		private List<Gesture> trainingSet = new List<Gesture>();
-
-		private List<Point> points = new List<Point>();
-		private int strokeId = -1;
-
-		private Vector3 virtualKeyPosition = Vector2.zero;
-		private Rect drawArea;
-
-		private RuntimePlatform platform;
-		private int vertexCount = 0;
-
-		private List<LineRenderer> gestureLinesRenderer = new List<LineRenderer>();
-		private LineRenderer currentGestureLineRenderer;
-
-		//GUI
-		private string message;
-		private bool recognized;
-		private string newGestureName = "";
-
-		private string wanted;
-		public Texture2D buttonImage;
-
-
-		void Start()
-		{
-			platform = Application.platform;
-			drawArea = new Rect(0, 0, Screen.width - Screen.width / 2, Screen.height);
-
-			//Load pre-made gestures
-			TextAsset[] gesturesXml = Resources.LoadAll<TextAsset>("GestureSet/10-stylus-MEDIUM/");
-			foreach (TextAsset gestureXml in gesturesXml)
-				trainingSet.Add(GestureIO.ReadGestureFromXML(gestureXml.text));
-
-			//Load user custom gestures
-			string[] filePaths = Directory.GetFiles(Application.dataPath + @"/\PDollar\Resources\GestureSet\10-stylus-MEDIUM", "*.xml");
-			foreach (string filePath in filePaths)
-				trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));
-		}
-
-		void Update()
-		{
-
-			if (platform == RuntimePlatform.Android || platform == RuntimePlatform.IPhonePlayer)
-			{
-				if (Input.touchCount > 0)
-				{
-					virtualKeyPosition = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
-				}
-			}
-			else
-			{
-				if (Input.GetMouseButton(0))
-				{
-					virtualKeyPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
-				}
-			}
-
-			if (drawArea.Contains(virtualKeyPosition))
-			{
-				if (Input.GetMouseButtonDown(0))
-				{
-					if (recognized)
-					{
-						recognized = false;
-						strokeId = -1;
-
-						points.Clear();
-
-						foreach (LineRenderer lineRenderer in gestureLinesRenderer)
-						{
-
-							lineRenderer.positionCount = 0;
-							Destroy(lineRenderer.gameObject);
-						}
-
-						gestureLinesRenderer.Clear();
-					}
-
-					++strokeId;
-
-					Transform tmpGesture = Instantiate(gestureOnScreenPrefab, transform.position+ new Vector3(0,0,0), transform.rotation) as Transform;
-					currentGestureLineRenderer = tmpGesture.GetComponent<LineRenderer>();
-
-					gestureLinesRenderer.Add(currentGestureLineRenderer);
-
-					vertexCount = 0;
-				}
-
-				if (Input.GetMouseButton(0))
-				{
-					points.Add(new Point(virtualKeyPosition.x, -virtualKeyPosition.y, strokeId));
-
-					currentGestureLineRenderer.positionCount = ++vertexCount;
-					currentGestureLineRenderer.SetPosition(vertexCount - 1, Camera.main.ScreenToWorldPoint(new Vector3(virtualKeyPosition.x, virtualKeyPosition.y, 10)));
-				}
-			}
-		}
-	
-		void OnGUI()
-		{
-
-			GUI.Box(drawArea, "Draw Area");
-
-			GUI.Label(new Rect(10, Screen.height - 40, 500, 50), message);
-
-			if (GUI.Button(new Rect(Screen.width - 100, 10, 100, 30), buttonImage))
-			{
-				recognized = true;
-				wanted = "pica";
-				Gesture candidate = new Gesture(points.ToArray());
-				Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
-				// esta aqui meu querido filho copilot
-
-				if(gestureResult.GestureClass == wanted){
-					message = "Acertou";
-				}else{
-					message = "Errou";
-				}
-				//message = gestureResult.GestureClass + " " + gestureResult.Score;
-			}
-
-			GUI.Label(new Rect(Screen.width - 200, 150, 70, 30), "Add as: ");
-			newGestureName = GUI.TextField(new Rect(Screen.width - 150, 150, 100, 30), newGestureName);
-
-			if (GUI.Button(new Rect(Screen.width - 50, 150, 50, 30), "Add") && points.Count > 0 && newGestureName != "")
-			{
-				string fileName = String.Format("{0}/{1}-{2}.xml", Application.dataPath + @"/\PDollar\Resources\GestureSet\10-stylus-MEDIUM", newGestureName, DateTime.Now.ToFileTime());
-
-#if !UNITY_WEBPLAYER
-				GestureIO.WriteGesture(points.ToArray(), newGestureName, fileName);
-#endif
-
-				trainingSet.Add(new Gesture(points.ToArray(), newGestureName));
-
-				newGestureName = "";
-			}
-		}
-	}
-} */
-
-using UnityEngine;
-using UnityEngine.UI; // Import UnityEngine.UI for UI components
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-
-namespace PDollarGestureRecognizer
-{
-    public class Demo : MonoBehaviour
+    public class sellingGame : MonoBehaviour
     {
         public Transform gestureOnScreenPrefab;
 
@@ -189,39 +33,63 @@ namespace PDollarGestureRecognizer
         private string wanted;
 
         // UI Buttons and Text
-        public Button recognizeButton; // coloca o botao (reconhecer) pela UI da unity
-        public Button clearButton;     // coloca o botao (limpar) pela UI da unity
-        public Text messageText;       // Drag a Text UI element to display messages
+        public Button recognizeButton;
+        public Button clearButton;
+        public Text messageText;
 
-        public Button StartButton;  // coloca o botao (começar) pela UI da unity
+        public GameObject Cliente;
+        private string[] ClientesGest = 
+            {"pica", "whirl", "ball", "T"};
 
-        public GameObject Cliente; // prefab do cliente
-        private string[,] Clientes = {
-        {"pica","whirl","ball","T"}, // gestos
-        {"AdorableCutieChiikawa","SweetBabyHachiware2","SweetieMomonga","YahaUsagi"}
-        };
+        private string[] ClientesSprites = 
+            {"AdorableCutieChiikawa", "SweetBabyHachiware2", "SweetieMomonga", "YahaUsagi"}; // Sprites
+        
 
-        private GameObject newCliente; // cliente instanciado
+        private GameObject newCliente;
 
-        private int money = 0; // dinheiro do usuario
+        private int money;
         private int moneyPerOrder = 100;
-        public Text moneyText; // texto que mostra o dinheiro
+        public Text moneyText;
+        public Text chatBox;
 
-        public Text chatBox; // caixa de texto do cliente
+        private int LastSpite = -1;
+        private int LastGesture = -1;
 
-        private GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        public void UpdateMoneyText(int money)
+        private GameManager gameManager; // Reference to GameManager
+        
+        private System.Random rng = new System.Random();
+
+        private int startingMoney = 0;
+    
+        public void UpdateMoney(int money)
         {
-            this.money = money; // Atualiza o valor do dinheiro
-            moneyText.text = "Dinheiro: " + this.money.ToString(); // Atualiza o texto do dinheiro
+            this.money = money;
+            startingMoney = money;
+            moneyText.text = "Dinheiro: " + money.ToString();
+            Debug.Log("Money updated to: " + money + " in sellingGame.");
         }
 
-        void sendMoney(){
-            gameManager.setMoney(money);
+        public GameObject modalPrefab;
 
-        }
+        private GameObject modalInstance;
+        private Text lucroText;
+        private Text TotalText;
+
+        private Button TerminarButton;
+
+        private LevelLoader levelLoader; 
         void Start()
         {
+            // Access the GameManager singleton
+            gameManager = GameManager.Instance;
+            levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+
+            if (gameManager == null)
+            {
+                Debug.LogError("GameManager instance not found!");
+                return;
+            }
+
             platform = Application.platform;
             drawArea = new Rect(0, 0, Screen.width - Screen.width / 2, Screen.height);
 
@@ -238,7 +106,9 @@ namespace PDollarGestureRecognizer
             // Add listeners to the buttons
             recognizeButton.onClick.AddListener(OnRecognizeButtonClick);
             clearButton.onClick.AddListener(OnClearButtonClick);
-            StartButton.onClick.AddListener(OnStartButtonClick);
+
+            // Start the game automatically
+            StartGame(); // Call the StartGame method to start the game automatically
         }
 
         void Update()
@@ -307,16 +177,20 @@ namespace PDollarGestureRecognizer
             if (gestureResult.GestureClass == wanted)
             {
                 message = "Acertou";
-                money += moneyPerOrder; // Adiciona dinheiro ao usuário
-                moneyText.text = "Dinheiro: " + money.ToString(); // Atualiza o texto do dinheiro
-                moneyPerOrder = 100; // Reseta o dinheiro por pedido
-                chatBox.text = ""; // Limpa a caixa de texto do cliente
-                Destroy(newCliente); // Destroi o cliente após acertar
+                money += moneyPerOrder;
+                moneyText.text = "Dinheiro: " + money.ToString();
+                moneyPerOrder = 100;
+                chatBox.text = "";
+                Destroy(newCliente);
+                //reseta o gesto
+                wanted = null;
+                // Atualiza o dineiro no GameManager
+                gameManager.SetMoney(money);
             }
             else
             {
                 message = "Errou";
-                moneyPerOrder -= 10; // Diminui o dinheiro por pedido
+                moneyPerOrder -= 10;
             }
 
             points.Clear();
@@ -330,7 +204,6 @@ namespace PDollarGestureRecognizer
             gestureLinesRenderer.Clear();
             strokeId = -1;
 
-            // atualiza o texto na tela
             if (messageText != null)
             {
                 messageText.text = message;
@@ -339,7 +212,6 @@ namespace PDollarGestureRecognizer
 
         void OnClearButtonClick()
         {
-            //limpa a tela
             points.Clear();
 
             foreach (LineRenderer lineRenderer in gestureLinesRenderer)
@@ -351,27 +223,64 @@ namespace PDollarGestureRecognizer
             gestureLinesRenderer.Clear();
             strokeId = -1;
 
-            Debug.Log("Pq tá olhando o console? Meliante!");
+            Debug.Log("Cleared!");
         }
 
-        void OnStartButtonClick()
+        void StartGame()
         {
-            // Instantiate the Cliente prefab
-            newCliente = Instantiate(Cliente, new Vector3(0, 0, 2), Quaternion.identity);
+            // Start the coroutine to spawn clients
+            StartCoroutine(SpawnClients());
+        }
+        IEnumerator SpawnClients()
+        {
+            int numClientes = 1; // numeros de clientes para spawnar
+            for(int i =0 ; i < numClientes; i++)
+            {
+                SpawnClient();
+                
+                yield return new WaitUntil(() => wanted == null); // Wait until the client is served
+            }
 
-            // Get the script attached to the Cliente prefab
+            modalInstance = Instantiate(modalPrefab, transform.position, Quaternion.identity);
+
+            lucroText = modalInstance.transform.Find("Lucro").GetComponent<Text>();
+            TotalText = modalInstance.transform.Find("Total").GetComponent<Text>();
+            TerminarButton = modalInstance.transform.Find("Button").GetComponent<Button>();
+
+            lucroText.text = "Lucro: " + (money - startingMoney).ToString();
+            TotalText.text = "Total: " + money.ToString();
+            gameManager.SetMoney(money);
+            TerminarButton.onClick.AddListener(() => levelLoader.LoadNextLevel("GameMenu"));
+        }
+        void SpawnClient()
+        {
+            
+            newCliente = Instantiate(Cliente, new Vector3(0, 0, 2), Quaternion.identity);
+            int gesture = rng.Next(ClientesGest.GetLength(0) - 1); // Random gesture index
+            int spriteIndx = rng.Next(ClientesSprites.GetLength(0) - 1); // Random sprite index
+            while (spriteIndx == LastSpite) 
+            {
+                spriteIndx = rng.Next(ClientesSprites.GetLength(0) - 1);
+            }
+            while (gesture == LastGesture) 
+            {
+                gesture = rng.Next(ClientesGest.GetLength(0) - 1);
+            }
+
             ClientBehaviour clienteScript = newCliente.GetComponent<ClientBehaviour>();
             if (clienteScript != null)
             {
-                // Set the sprite and gesture name
-                clienteScript.SetSprite(Clientes[1, 0]); // Pass the sprite name
-                clienteScript.SetGestureName(Clientes[0, 1]); // Pass the gesture name
-                wanted = Clientes[0, 1]; // Set the wanted gesture
+                clienteScript.SetSprite(ClientesSprites[spriteIndx]);
+                clienteScript.SetGestureName(ClientesGest[gesture]);
+                wanted = ClientesGest[gesture];
             }
             else
             {
-                Debug.LogError("ClienteScript is not attached to the Cliente prefab!");
+                Debug.LogError("ClientBehaviour script is not attached to the Cliente prefab!");
             }
+
+            LastGesture = gesture; // Store the last gesture index
+            LastSpite = spriteIndx; // Store the last sprite index
         }
     }
 }
