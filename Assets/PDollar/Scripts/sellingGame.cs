@@ -17,7 +17,7 @@ namespace PDollarGestureRecognizer
         private int strokeId = -1;
 
         private Vector3 virtualKeyPosition = Vector2.zero;
-        public Rect drawArea;
+        public RectTransform drawAreaImage;
 
         private RuntimePlatform platform;
         private int vertexCount = 0;
@@ -91,7 +91,6 @@ namespace PDollarGestureRecognizer
             }
 
             platform = Application.platform;
-            drawArea = new Rect(0, 0, Screen.width - Screen.width / 2, Screen.height);
 
             // Load pre-made gestures
             TextAsset[] gesturesXml = Resources.LoadAll<TextAsset>("GestureSet/10-stylus-MEDIUM/");
@@ -128,7 +127,7 @@ namespace PDollarGestureRecognizer
                 }
             }
 
-            if (drawArea.Contains(virtualKeyPosition))
+            if (RectTransformUtility.RectangleContainsScreenPoint(drawAreaImage, virtualKeyPosition, Camera.main))
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -233,7 +232,7 @@ namespace PDollarGestureRecognizer
         }
         IEnumerator SpawnClients()
         {
-            int numClientes = 1; // numeros de clientes para spawnar
+            int numClientes = 10; // numeros de clientes para spawnar
             for(int i =0 ; i < numClientes; i++)
             {
                 SpawnClient();
