@@ -39,7 +39,7 @@ namespace PDollarGestureRecognizer
 
         public GameObject Cliente;
         private string[] ClientesGest = 
-            {"pica", "whirl", "ball", "T"};
+            { "whirl", "ball", "T"};
 
         private string[] ClientesSprites = 
             {"AdorableCutieChiikawa", "SweetBabyHachiware2", "SweetieMomonga", "YahaUsagi"}; // Sprites
