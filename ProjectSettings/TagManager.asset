@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Prato
   - Lixo
+  - Grelha
+  - Final
+  - Stackable
   layers:
   - Default
   - TransparentFX

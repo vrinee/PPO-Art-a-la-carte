@@ -11,11 +11,17 @@ public class GameManager : MonoBehaviour
 
     private int money = 0;
 
+    public string[] recipes;
+    public int[] recipeCosts;
+    private bool[] isRecipeReady;
+
     public void SetMoney(int money)
     {
         this.money = money;
         Debug.Log("Money set to: " + money + " in GameManager.");
     }
+
+
 
     void Awake()
     {
@@ -35,6 +41,13 @@ public class GameManager : MonoBehaviour
     {
         // This will only run once when the GameManager is first created
         Debug.Log("GameManager Start method called.");
+
+        isRecipeReady = new bool[recipes.Length];
+        for (int i = 0; i < isRecipeReady.Length; i++)
+        {
+            isRecipeReady[i] = false;
+        }
+
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -68,5 +81,17 @@ public class GameManager : MonoBehaviour
     {
         // Unsubscribe from the sceneLoaded event to avoid memory leaks
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void SetRecipeReady(string recipeName){
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (recipeName == recipes[i])
+            {
+                isRecipeReady[i] = true;
+                Debug.Log("Recipe " + recipeName + " is ready.");
+                break;
+            }
+        }
     }
 }

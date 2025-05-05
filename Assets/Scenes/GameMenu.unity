@@ -290,7 +290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &126438861
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1065,10 +1065,10 @@ RectTransform:
   - {fileID: 1348601031}
   m_Father: {fileID: 2023955868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 324.2, y: -380}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &462438371
 GameObject:
@@ -1615,7 +1615,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Receita Supimpa
+  m_Text: Hamburguer
 --- !u!222 &759094177
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2000,10 +2000,10 @@ RectTransform:
   - {fileID: 1964927840}
   m_Father: {fileID: 2023955868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 324.2, y: -50}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1331777725
 GameObject:
@@ -2916,10 +2916,10 @@ RectTransform:
   - {fileID: 253820693}
   m_Father: {fileID: 2023955868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 324.2, y: -270}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1670014115
 GameObject:
@@ -3091,6 +3091,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1513362309064845625, guid: 970f87f67ac468a4d8de5a3f245f1ae8, type: 3}
+      propertyPath: recipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513362309064845625, guid: 970f87f67ac468a4d8de5a3f245f1ae8, type: 3}
+      propertyPath: 'recipes.Array.data[0]'
+      value: Hamburguer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513362309064845625, guid: 970f87f67ac468a4d8de5a3f245f1ae8, type: 3}
+      propertyPath: recipeCosts.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513362309064845625, guid: 970f87f67ac468a4d8de5a3f245f1ae8, type: 3}
+      propertyPath: 'recipeCosts.Array.data[0]'
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1535441962798172282, guid: 970f87f67ac468a4d8de5a3f245f1ae8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.13927275
@@ -3169,10 +3185,10 @@ RectTransform:
   - {fileID: 773100655}
   m_Father: {fileID: 2023955868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 324.2, y: -160}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1800825183
 GameObject:
@@ -3365,10 +3381,10 @@ RectTransform:
   - {fileID: 1506896435}
   m_Father: {fileID: 2023955868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 324.2, y: -490}
-  m_SizeDelta: {x: 500, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1964927839
 GameObject:
@@ -3452,7 +3468,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1964927842}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 980891353}
+        m_TargetAssemblyTypeName: LevelLoader, Assembly-CSharp
+        m_MethodName: LoadNextLevel
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Hamburguer
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1964927842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3531,7 +3559,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.0046993, y: -93.00484}
-  m_SizeDelta: {x: 648.4, y: 540}
+  m_SizeDelta: {x: 648.4, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2023955869
 MonoBehaviour:
