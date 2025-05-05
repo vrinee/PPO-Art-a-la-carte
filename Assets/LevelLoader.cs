@@ -44,4 +44,31 @@ public class LevelLoader : MonoBehaviour
             Debug.LogError("Scene name is null or empty!");
         }
     }
+
+    public void CompleteTransition()
+    {
+        StartCoroutine(PlayTransitionAnimation());
+    }
+
+    IEnumerator PlayTransitionAnimation()
+    {
+        if (transition != null)
+        {
+            transition.SetTrigger("Start");
+            Debug.Log("Trigger 'Start' set for transition animation.");
+        }
+        else
+        {
+            Debug.LogError("Transition Animator is not assigned!");
+            yield break;
+        }
+
+        // Wait for the transition animation to complete
+        Debug.Log("Waiting for transition time: " + transitionTime);
+        yield return new WaitForSeconds(transitionTime);
+
+        transition.SetTrigger("End");
+        Debug.Log("Trigger 'End' set for transition animation.");
+        // Load the next level or perform any other action here
+    }
 }

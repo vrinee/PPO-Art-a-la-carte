@@ -19,7 +19,11 @@ public class Toastable : MonoBehaviour
 
     private string trashTag = "Lixo";
 
+    private string finishTag = "Final";
+
     public string targetTag = "Prato"; 
+
+    public string foodTag = "Hamburguer";
     public int cookingTime = 5;
 
     private int currentState = 0;
@@ -29,6 +33,7 @@ public class Toastable : MonoBehaviour
     public Transform spawnPoint;
 
     public Transform selfTransform;
+
 
     void Start()
     {
@@ -59,18 +64,53 @@ public class Toastable : MonoBehaviour
         isDragging = true;
     }
 
+    void OnMouseUp()
+    {
+        isDragging = false;
+    }
+
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == targetTag && isDragging )
+        if(!isDragging)
         {
-            isColliding = true;
-
-            
-            if (!isCoroutineRunning)
+            if (col.gameObject.tag == targetTag)
             {
-                StartCoroutine(CheckIfStillColliding());
+                isColliding = true;
+
+                
+                if (!isCoroutineRunning)
+                {
+                    StartCoroutine(CheckIfStillColliding());
+                }
+            }
+            else if (col.gameObject.tag == finishTag)
+            {
+                if (isCooked && !isBurnt)
+                {
+                    CookingBehaviour cookingBehaviour = FindFirstObjectByType<CookingBehaviour>();
+                    if (cookingBehaviour != null)
+                    {
+                        cookingBehaviour.complete(foodTag);
+                        Debug.Log("Called complete function in CookingBehaviour with tag: " + foodTag);
+                    }
+                    else
+                    {
+                        Debug.LogError("CookingBehaviour not found in the scene!");
+                    }
+                }
+                else if (isBurnt)
+                {
+                    Debug.Log("Food is burnt!");
+                }
+                else
+                {
+                    Debug.Log("Food is not cooked yet!");
+                }
             }
         }
+        
+
+
     }
 
     void OnCollisionExit2D(Collision2D col)
@@ -126,5 +166,7 @@ public class Toastable : MonoBehaviour
             selfTransform.position = spawnPoint.position;
 
         }
+
+
     }
 }
