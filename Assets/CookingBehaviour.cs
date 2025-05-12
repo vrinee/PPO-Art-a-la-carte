@@ -112,12 +112,7 @@ public class CookingBehaviour : MonoBehaviour
 
         lucroText.text = "Receita: " + recipeName;
         TotalText.text = "Valor: " + recipeCost;
-        Debug.LogError("TerminarButton found in the modal instance!");
-        TerminarButton.onClick.AddListener(() => {
-            levelLoader.LoadNextLevel("GameMenu");
-            Debug.LogError("TerminarButton found in the modal instance!33333333333");
-            });
-        Debug.LogError("TerminarButton found in the modal instance! 2222");
+        TerminarButton.onClick.AddListener(() => {levelLoader.LoadNextLevel("GameMenu");});
         gameManager.SetRecipeReady(recipeName);
     }
 }

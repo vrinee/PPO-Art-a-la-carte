@@ -38,6 +38,8 @@ namespace PDollarGestureRecognizer
         public Text messageText;
 
         public GameObject Cliente;
+
+        public Transform ClienteSpawn;
         private string[] ClientesGest = 
             { "whirl", "ball", "T"};
 
@@ -254,7 +256,7 @@ namespace PDollarGestureRecognizer
         void SpawnClient()
         {
             
-            newCliente = Instantiate(Cliente, new Vector3(0, 0, 2), Quaternion.identity);
+            newCliente = Instantiate(Cliente, ClienteSpawn.position, Quaternion.identity);
             int gesture = rng.Next(ClientesGest.GetLength(0) - 1); // Random gesture index
             int spriteIndx = rng.Next(ClientesSprites.GetLength(0) - 1); // Random sprite index
             while (spriteIndx == LastSpite) 

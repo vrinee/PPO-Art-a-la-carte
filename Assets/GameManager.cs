@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using PDollarGestureRecognizer;
 using UnityEngine.SceneManagement;
 
@@ -9,11 +11,24 @@ public class GameManager : MonoBehaviour
     private GameObject camera;
     private sellingGame sellingGame;
 
-    private int money = 0;
+    private int money = 1000;
 
     public string[] recipes;
     public int[] recipeCosts;
     private bool[] isRecipeReady;
+
+    private TMP_Text moneyText;
+
+    private bool modalOpen = false;
+
+    public void SetModalOpen(bool open)
+    {
+        modalOpen = open;
+    }
+    public bool IsModalOpen()
+    {
+        return modalOpen;
+    }
 
     public void SetMoney(int money)
     {
@@ -22,7 +37,32 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public int GetRecipeCost(string RecipeName){
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (RecipeName == recipes[i])
+            {
+                return recipeCosts[i];
+            }
+        }
+        Debug.LogError("Recipe not found: " + RecipeName);
+        return 0;
+    }
 
+    public int GetMoney()
+    {
+        return money;
+    }
+
+    public void AddMoney(int amount)
+    {
+        money += amount;
+        Debug.Log("Money added: " + amount + ". New total: " + money);
+        UpdateMoney();
+    }
+    void UpdateMoney(){
+        moneyText.text = "Dinheiro:" + money.ToString();
+    }
     void Awake()
     {
         if (Instance == null)
@@ -47,7 +87,8 @@ public class GameManager : MonoBehaviour
         {
             isRecipeReady[i] = false;
         }
-
+        moneyText = GameObject.Find("Text (Dinheiro)").GetComponent<TMP_Text>();
+        UpdateMoney();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -75,6 +116,11 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("Main Camera not found in the scene!");
             }
         }
+        if (scene.name == "GameMenu")
+        {
+            moneyText = GameObject.Find("Text (Dinheiro)").GetComponent<TMP_Text>();
+            UpdateMoney();
+        }
     }
 
     void OnDestroy()
@@ -93,5 +139,17 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public bool IsRecipeReady(string recipeName){
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (recipeName == recipes[i])
+            {
+                return isRecipeReady[i];
+            }
+        }
+        Debug.LogError("Recipe " + recipeName + " not found.");
+        return false;
     }
 }
