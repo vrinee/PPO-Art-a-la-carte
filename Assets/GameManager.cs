@@ -3,18 +3,37 @@ using UnityEngine.UI;
 using TMPro;
 using PDollarGestureRecognizer;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+
+[System.Serializable]
+public class RecipeData
+{
+    public string name;
+    public int cost;
+    public string[] description;
+}
+
+[System.Serializable]
+public class RecipeDataList
+{
+    public RecipeData[] recipes;
+}
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     private GameObject camera;
-    private sellingGame sellingGame;
+    private SellingGame sellingGame;
 
     private int money = 1000;
 
-    public string[] recipes;
-    public int[] recipeCosts;
+    private string[] recipes;
+    private int[] recipeCosts;
+
+    private string[][] recipeDescription;
     private bool[] isRecipeReady;
 
     private TMP_Text moneyText;
@@ -49,6 +68,24 @@ public class GameManager : MonoBehaviour
         return 0;
     }
 
+    public string[] GetRecipesReady()
+    {
+        List<string> readyRecipes = new List<string>();
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (isRecipeReady[i])
+            {
+                readyRecipes.Add(recipes[i]);
+            }
+        }
+        return readyRecipes.ToArray();
+    }
+
+    public string[][] GetRecipeDescription()
+    {
+        return recipeDescription;
+    }
+
     public int GetMoney()
     {
         return money;
@@ -62,6 +99,32 @@ public class GameManager : MonoBehaviour
     }
     void UpdateMoney(){
         moneyText.text = "Dinheiro:" + money.ToString();
+    }
+
+    void LoadRecipesFromJson()
+    {
+        // Load the JSON file from Resources
+        TextAsset jsonText = Resources.Load<TextAsset>("recipes");
+        if (jsonText == null)
+        {
+            Debug.LogError("recipes.json not found in Resources folder!");
+            return;
+        }
+
+        // Parse the JSON
+        RecipeDataList recipeList = JsonUtility.FromJson<RecipeDataList>(jsonText.text);
+
+        // Assign to arrays
+        int count = recipeList.recipes.Length;
+        recipes = new string[count];
+        recipeCosts = new int[count];
+        recipeDescription = new string[count][];
+        for (int i = 0; i < count; i++)
+        {
+            recipes[i] = recipeList.recipes[i].name;
+            recipeCosts[i] = recipeList.recipes[i].cost;
+            recipeDescription[i] = recipeList.recipes[i].description;
+        }
     }
     void Awake()
     {
@@ -81,12 +144,14 @@ public class GameManager : MonoBehaviour
     {
         // This will only run once when the GameManager is first created
         Debug.Log("GameManager Start method called.");
+        LoadRecipesFromJson();
 
         isRecipeReady = new bool[recipes.Length];
         for (int i = 0; i < isRecipeReady.Length; i++)
         {
             isRecipeReady[i] = false;
         }
+        isRecipeReady[0] = true; // Set the first recipe as ready for testing
         moneyText = GameObject.Find("Text (Dinheiro)").GetComponent<TMP_Text>();
         UpdateMoney();
     }
@@ -101,7 +166,7 @@ public class GameManager : MonoBehaviour
             camera = GameObject.Find("Main Camera");
             if (camera != null)
             {
-                sellingGame = camera.GetComponent<sellingGame>();
+                sellingGame = camera.GetComponent<SellingGame>();
                 if (sellingGame != null)
                 {
                     sellingGame.UpdateMoney(money);

@@ -4,10 +4,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 
 namespace PDollarGestureRecognizer
 {
-    public class sellingGame : MonoBehaviour
+    public class SellingGame : MonoBehaviour
     {
         public Transform gestureOnScreenPrefab;
 
@@ -41,9 +42,19 @@ namespace PDollarGestureRecognizer
 
         public Transform ClienteSpawn;
         private string[] ClientesGest = 
-            { "whirl", "ball", "T"};
+            { "whirl", "ball", "pica"};
 
-        private string[] ClientesSprites = 
+        private string[] Recipes;
+
+        private string[] RecipesGest;
+
+        private int[] RecipesCost;
+
+        private string[][] RecipeDescriptions;
+
+        private int recipeIndex;
+
+        private string[] ClientesSprites =
             {"AdorableCutieChiikawa", "SweetBabyHachiware2", "SweetieMomonga", "YahaUsagi"}; // Sprites
         
 
@@ -52,10 +63,9 @@ namespace PDollarGestureRecognizer
         private int money;
         private int moneyPerOrder = 100;
         public Text moneyText;
-        public Text chatBox;
+        public TMP_Text chatBox;
 
         private int LastSpite = -1;
-        private int LastGesture = -1;
 
         private GameManager gameManager; // Reference to GameManager
         
@@ -79,8 +89,50 @@ namespace PDollarGestureRecognizer
 
         private Button TerminarButton;
 
-        private LevelLoader levelLoader; 
-        void Start()
+        private LevelLoader levelLoader;
+
+        public string[] GetRecipes()
+        {
+            return Recipes;
+        }
+        public string[] GetRecipesGest()
+        {
+            return RecipesGest;
+        }
+        public string[][] GetRecipeDescription()
+        {
+            return RecipeDescriptions;
+        }
+        void AssignGestures()
+        {
+            RecipesGest = new string[Recipes.Length];
+            // Create a mutable list of available gestures
+            List<string> gesturePool = new List<string>(ClientesGest);
+
+            System.Random rng = new System.Random();
+
+            for (int i = 0; i < Recipes.Length; i++)
+            {
+                string chosenGesture;
+                if (gesturePool.Count > 0)
+                {
+                    // Pick a random gesture from the pool
+                    int index = rng.Next(gesturePool.Count);
+                    chosenGesture = gesturePool[index];
+                    gesturePool.RemoveAt(index); // Remove so it's not reused
+                }
+                else
+                {
+                    // Pool is empty, reuse any gesture from the original set
+                    int index = rng.Next(ClientesGest.Length);
+                    chosenGesture = ClientesGest[index];
+                }
+                RecipesGest[i] = chosenGesture;
+            }
+
+            Debug.Log("Gestures assigned: " + string.Join(", ", RecipesGest));
+        }   
+        void Awake()
         {
             // Access the GameManager singleton
             gameManager = GameManager.Instance;
@@ -91,6 +143,10 @@ namespace PDollarGestureRecognizer
                 Debug.LogError("GameManager instance not found!");
                 return;
             }
+
+            Recipes = gameManager.GetRecipesReady();
+            RecipeDescriptions = gameManager.GetRecipeDescription();
+            AssignGestures();
 
             platform = Application.platform;
 
@@ -174,7 +230,8 @@ namespace PDollarGestureRecognizer
             recognized = true;
             Gesture candidate = new Gesture(points.ToArray());
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
-
+            moneyPerOrder = gameManager.GetRecipeCost(Recipes[recipeIndex]);
+            Debug.Log(gestureResult.GestureClass);
             if (gestureResult.GestureClass == wanted)
             {
                 message = "Acertou";
@@ -257,30 +314,26 @@ namespace PDollarGestureRecognizer
         {
             
             newCliente = Instantiate(Cliente, ClienteSpawn.position, Quaternion.identity);
-            int gesture = rng.Next(ClientesGest.GetLength(0) - 1); // Random gesture index
+            recipeIndex = rng.Next(Recipes.Length); // Random recipe index
             int spriteIndx = rng.Next(ClientesSprites.GetLength(0) - 1); // Random sprite index
             while (spriteIndx == LastSpite) 
             {
                 spriteIndx = rng.Next(ClientesSprites.GetLength(0) - 1);
             }
-            while (gesture == LastGesture) 
-            {
-                gesture = rng.Next(ClientesGest.GetLength(0) - 1);
-            }
-
             ClientBehaviour clienteScript = newCliente.GetComponent<ClientBehaviour>();
             if (clienteScript != null)
             {
                 clienteScript.SetSprite(ClientesSprites[spriteIndx]);
-                clienteScript.SetGestureName(ClientesGest[gesture]);
-                wanted = ClientesGest[gesture];
+                clienteScript.SetGestureName(RecipesGest[recipeIndex]);
+                clienteScript.SetRecipeName(Recipes[recipeIndex]);
+                clienteScript.SetRecipeDescription(RecipeDescriptions[recipeIndex]);
+                wanted = RecipesGest[recipeIndex];
             }
             else
             {
                 Debug.LogError("ClientBehaviour script is not attached to the Cliente prefab!");
             }
 
-            LastGesture = gesture; // Store the last gesture index
             LastSpite = spriteIndx; // Store the last sprite index
         }
     }

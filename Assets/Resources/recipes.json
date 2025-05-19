@@ -1,0 +1,9 @@
+{
+    "recipes": [
+        {
+        "name": "Hamburguer",
+        "cost": 100,
+        "description": ["suculento", "pequeno", "fast Food"]
+        }
+    ]
+}
