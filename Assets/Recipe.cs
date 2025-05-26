@@ -101,7 +101,7 @@ public class Recipe : MonoBehaviour
         button = GetComponentInChildren<Button>();
         buttonText = button.GetComponentInChildren<Text>();
         gameManager = GameManager.Instance;
-        levelLoader = FindObjectOfType<LevelLoader>();
+        levelLoader = FindFirstObjectByType<LevelLoader>();
         recipeCost = gameManager.GetRecipeCost(recipeName);
         if (recipeCost == 0)
         {

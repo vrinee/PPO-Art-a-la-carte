@@ -6,7 +6,7 @@ public class Stackable : MonoBehaviour
     private Vector3 screenPoint;
     private Vector3 offset;
 
-    public string name = "StackableObject";
+    public string stackableName = "StackableObject";
     public string targetName = "Stackable";
 
     public bool hasAbove = true;
@@ -40,7 +40,7 @@ public class Stackable : MonoBehaviour
             if (collision.gameObject.CompareTag("Stackable") && collision.gameObject.GetComponent<Stackable>().isStacked)
             {
                 if (collision.transform.position.y < transform.position.y){
-                    if(collision.gameObject.GetComponent<Stackable>().name == targetName){
+                    if(collision.gameObject.GetComponent<Stackable>().stackableName == targetName){
                         transform.position = collision.gameObject.transform.position + new Vector3(0, 0.5f, 0);
                         isStacked = true;
                         if(!hasAbove){

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    private GameObject camera;
+    private new GameObject camera;
     private SellingGame sellingGame;
 
     private int money = 1000;
@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
         {
             isRecipeReady[i] = false;
         }
-        isRecipeReady[0] = true; // Set the first recipe as ready for testing
+        //isRecipeReady[0] = true; // Set the first recipe as ready for testing
         moneyText = GameObject.Find("Text (Dinheiro)").GetComponent<TMP_Text>();
         UpdateMoney();
     }

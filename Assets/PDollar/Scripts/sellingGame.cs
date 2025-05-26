@@ -29,7 +29,7 @@ namespace PDollarGestureRecognizer
         // GUI
         private string message;
         private bool recognized;
-        private string newGestureName = "";
+        //private string newGestureName = "";
 
         private string wanted;
 
@@ -41,14 +41,14 @@ namespace PDollarGestureRecognizer
         public GameObject Cliente;
 
         public Transform ClienteSpawn;
-        private string[] ClientesGest = 
-            { "whirl", "ball", "pica"};
+        private string[] ClientesGest =
+            { "whirl", "ball", "triangle","horizontalline","verticalline"}; // Gestures
 
         private string[] Recipes;
 
         private string[] RecipesGest;
 
-        private int[] RecipesCost;
+        //private int[] RecipesCost;
 
         private string[][] RecipeDescriptions;
 

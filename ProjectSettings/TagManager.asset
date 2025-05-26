@@ -9,6 +9,7 @@ TagManager:
   - Grelha
   - Final
   - Stackable
+  - Torneira
   layers:
   - Default
   - TransparentFX
