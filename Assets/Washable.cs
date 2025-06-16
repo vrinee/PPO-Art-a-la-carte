@@ -1,24 +1,32 @@
 using UnityEngine;
 
-public class slice : MonoBehaviour
+public class Washable : MonoBehaviour
 {
-
     private Vector3 screenPoint;
     private Vector3 offset;
 
-    public bool dragable = false;
 
+
+    public bool isDragging = false;
+    
+    public bool dragable = true;
+
+    private bool isWashed = false;
+
+    public string sinkTag = "Torneira";
     public string targetTag = "Prato";
 
-    private bool isDragging = false;
+    public Sprite washedSprite;
+
+    private SpriteRenderer spriteRenderer;
 
     private CookingBehaviour cookingBehaviour;
 
     void OnMouseDown()
     {
         if (!dragable) return;
-        screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+        screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
     }
 
     void OnMouseDrag()
@@ -41,17 +49,24 @@ public class slice : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (!dragable) return;
-        if (isDragging) return;
-        if (other.CompareTag(targetTag) && other.transform.position.y < transform.position.y)
+        if (other.CompareTag(sinkTag) && !isWashed)
         {
-            cookingBehaviour.FinnishSlice();
+            spriteRenderer.sprite = washedSprite;
+            Debug.Log("Lavado um alface, ou oq quer que seja");
+            isWashed = true;
+        }
+        if (!isWashed) return;
+        if (isDragging) return;
+        if (other.CompareTag(targetTag) && other.transform.position.y < transform.position.y )
+        {
+            cookingBehaviour.WashableDone();
             Destroy(gameObject);
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         cookingBehaviour = FindAnyObjectByType<CookingBehaviour>();
     }
 

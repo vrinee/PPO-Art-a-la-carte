@@ -7,13 +7,33 @@ public class CookingBehaviour : MonoBehaviour
 
     public string[] ToastableTags;
     private bool[] readyToBuild;
-    public Transform cameraTransform;
+    public Transform cameraTransformToast;
+
+    public Transform cameraTransformWash;
 
     private Camera mainCamera;
 
     public string recipeName;
     public int recipeCost;
+
+    public Transform sliceableSpawnPoint;
+
+    public Transform washableSpawnPoint;
     public GameObject modalPrefab;
+
+    public GameObject washablePrefab;
+
+    public GameObject sliceablePrefab;
+
+    public GameObject[] slicesPrefabs;
+
+    public int slicesAmount;
+    private int slicesController = 0;
+
+    public int sliceablesAmount;
+    private int sliceablesController = 0;
+
+    private int washablesController = 0;
 
     private GameObject modalInstance;
     private Text lucroText;
@@ -24,6 +44,8 @@ public class CookingBehaviour : MonoBehaviour
     private LevelLoader levelLoader;
 
     private GameManager gameManager;
+
+    private GameObject sliceable;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void complete(string tag)
     {
@@ -48,7 +70,7 @@ public class CookingBehaviour : MonoBehaviour
             }
         }
         // Start a coroutine to smoothly move the camera
-        
+
         if (levelLoader != null)
         {
             levelLoader.CompleteTransition();
@@ -57,14 +79,15 @@ public class CookingBehaviour : MonoBehaviour
         {
             Debug.LogError("LevelLoader not found in the scene!");
         }
-        StartCoroutine(SmoothMoveCamera());
+        StartCoroutine(SmoothMoveCamera(cameraTransformToast));
     }
 
-    IEnumerator SmoothMoveCamera()
-    {   
+
+    IEnumerator SmoothMoveCamera(Transform target)
+    {
         yield return new WaitForSeconds(1f); // Wait for 0.5 seconds before starting the camera movement
         Vector3 startPosition = mainCamera.transform.position;
-        Vector3 targetPosition = cameraTransform.position;
+        Vector3 targetPosition = target.position;
         targetPosition.z = mainCamera.transform.position.z;
         mainCamera.transform.position = targetPosition;
     }
@@ -79,26 +102,28 @@ public class CookingBehaviour : MonoBehaviour
         gameManager = GameManager.Instance;
         levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
 
-        if (gameManager == null)
-        {
-             Debug.LogError("GameManager instance not found!");
-                return;
-        }
+
         if (levelLoader == null)
         {
             Debug.LogError("LevelLoader not found in the scene!");
             return;
+        }
+        if (recipeName == "Salada")
+        {
+            Instantiate(washablePrefab, washableSpawnPoint.position, Quaternion.identity);
+            SpawnSliceable();
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
-    public void EndRecipe(){
+    public void EndRecipe()
+    {
         modalInstance = Instantiate(modalPrefab, transform.position, Quaternion.identity);
 
         lucroText = modalInstance.transform.Find("Lucro").GetComponent<Text>();
@@ -112,7 +137,65 @@ public class CookingBehaviour : MonoBehaviour
 
         lucroText.text = "Receita: " + recipeName;
         TotalText.text = "Valor: " + recipeCost;
-        TerminarButton.onClick.AddListener(() => {levelLoader.LoadNextLevel("GameMenu");});
+        TerminarButton.onClick.AddListener(() => { levelLoader.LoadNextLevel("GameMenu"); });
         gameManager.SetRecipeReady(recipeName);
+    }
+
+    private void SpawnSliceable()
+    {
+        if (sliceableSpawnPoint != null && sliceablePrefab != null)
+        {
+            sliceable = Instantiate(sliceablePrefab, sliceableSpawnPoint.position, Quaternion.identity);
+            sliceable.transform.SetParent(sliceableSpawnPoint);
+        }
+        else
+        {
+            Debug.LogError("Sliceable spawn point or prefab is not set!");
+        }
+    }
+
+    public void RestartSliceable()
+    {
+        if (sliceable != null)
+        {
+            Destroy(sliceable);
+            slicesController = 0;
+            SpawnSliceable();
+        }
+        else
+        {
+            Debug.LogError("Sliceable not found to restart!");
+        }
+    }
+
+    public void FinnishSlice()
+    {
+        slicesController++;
+        if (slicesController >= slicesAmount)
+        {
+            slicesController = 0;
+            sliceablesController++;
+            if (sliceablesController >= sliceablesAmount)
+            {
+                Destroy(sliceable);
+                Debug.Log("All slices completed for the recipe: " + recipeName);
+                //TBD
+                return;
+            }
+            RestartSliceable();
+
+        }
+    }
+
+    public void WashableDone()
+    {
+        washablesController++;
+        if (washablesController >= sliceablesAmount)
+        {
+            levelLoader.CompleteTransition();
+            StartCoroutine(SmoothMoveCamera(cameraTransformWash));
+            return;
+        }
+        Instantiate(washablePrefab, washableSpawnPoint.position, Quaternion.identity);
     }
 }

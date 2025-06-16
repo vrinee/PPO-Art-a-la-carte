@@ -15,6 +15,7 @@ public class cutBox : MonoBehaviour
         if (parentSliceable != null)
         {
             parentSliceable.Cutted(gameObject);
+            Destroy(gameObject);
         }
         else
         {
