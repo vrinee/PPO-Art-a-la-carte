@@ -11,6 +11,8 @@ public class CookingBehaviour : MonoBehaviour
 
     public Transform cameraTransformWash;
 
+    public Transform cameraTransformSlice;
+
     private Camera mainCamera;
 
     public string recipeName;
@@ -46,6 +48,8 @@ public class CookingBehaviour : MonoBehaviour
     private GameManager gameManager;
 
     private GameObject sliceable;
+
+    private bool IsToasted = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void complete(string tag)
     {
@@ -79,6 +83,7 @@ public class CookingBehaviour : MonoBehaviour
         {
             Debug.LogError("LevelLoader not found in the scene!");
         }
+        IsToasted = true;
         StartCoroutine(SmoothMoveCamera(cameraTransformToast));
     }
 
@@ -179,7 +184,8 @@ public class CookingBehaviour : MonoBehaviour
             {
                 Destroy(sliceable);
                 Debug.Log("All slices completed for the recipe: " + recipeName);
-                //TBD
+                levelLoader.CompleteTransition();
+                StartCoroutine(SmoothMoveCamera(cameraTransformSlice));
                 return;
             }
             RestartSliceable();
@@ -197,5 +203,10 @@ public class CookingBehaviour : MonoBehaviour
             return;
         }
         Instantiate(washablePrefab, washableSpawnPoint.position, Quaternion.identity);
+    }
+
+    public bool IsRecipeToasted()
+    {
+        return IsToasted;
     }
 }
