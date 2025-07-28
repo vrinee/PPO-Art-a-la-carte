@@ -14,7 +14,7 @@ public class Bowl : MonoBehaviour
 
     public GameObject[] itemPrefab;
 
-    public CookingBehaviour cookingBehaviour;
+    private CookingBehaviour cookingBehaviour;
 
     private int currentState = 0;
 
@@ -49,6 +49,11 @@ public class Bowl : MonoBehaviour
                 {
                     cookingBehaviour.EndRecipe();
                     return;
+                }
+                if (itemAmounts[i] <= 0)
+                {
+                    Instantiate(itemPrefab[i + 1], spawnPoint.position, Quaternion.identity);
+                    return;    
                 }
                 Instantiate(itemPrefab[i], spawnPoint.position, Quaternion.identity);
             }

@@ -4,6 +4,11 @@
         "name": "Hamburguer",
         "cost": 100,
         "description": ["suculento", "pequeno", "fast Food"]
+        },
+        {
+        "name": "Salada Caesar",
+        "cost": 150,
+        "description":["saudável","fresco","pequeno"]
         }
     ]
 }

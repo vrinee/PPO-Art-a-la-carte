@@ -230,14 +230,14 @@ namespace PDollarGestureRecognizer
             recognized = true;
             Gesture candidate = new Gesture(points.ToArray());
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
-            moneyPerOrder = gameManager.GetRecipeCost(Recipes[recipeIndex]);
+            
             Debug.Log(gestureResult.GestureClass);
             if (gestureResult.GestureClass == wanted)
             {
                 message = "Acertou";
                 money += moneyPerOrder;
                 moneyText.text = "Dinheiro: " + money.ToString();
-                moneyPerOrder = 100;
+                moneyPerOrder = 69;
                 chatBox.text = "";
                 Destroy(newCliente);
                 //reseta o gesto
@@ -315,6 +315,7 @@ namespace PDollarGestureRecognizer
             
             newCliente = Instantiate(Cliente, ClienteSpawn.position, Quaternion.identity);
             recipeIndex = rng.Next(Recipes.Length); // Random recipe index
+            moneyPerOrder = gameManager.GetRecipeCost(Recipes[recipeIndex]);
             int spriteIndx = rng.Next(ClientesSprites.GetLength(0) - 1); // Random sprite index
             while (spriteIndx == LastSpite) 
             {
@@ -325,7 +326,9 @@ namespace PDollarGestureRecognizer
             {
                 clienteScript.SetSprite(ClientesSprites[spriteIndx]);
                 clienteScript.SetGestureName(RecipesGest[recipeIndex]);
+                Debug.Log(RecipesGest[recipeIndex] + " this is the gesture " + recipeIndex);
                 clienteScript.SetRecipeName(Recipes[recipeIndex]);
+                Debug.Log(Recipes[recipeIndex] + " this is the recipe " + recipeIndex);
                 clienteScript.SetRecipeDescription(RecipeDescriptions[recipeIndex]);
                 wanted = RecipesGest[recipeIndex];
             }

@@ -113,7 +113,7 @@ public class CookingBehaviour : MonoBehaviour
             Debug.LogError("LevelLoader not found in the scene!");
             return;
         }
-        if (recipeName == "Salada")
+        if (recipeName == "Salada Caesar")
         {
             Instantiate(washablePrefab, washableSpawnPoint.position, Quaternion.identity);
             SpawnSliceable();

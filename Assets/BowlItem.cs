@@ -45,7 +45,7 @@ public class BowlItem : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (!isDragging) return;
+        if (isDragging) return;
         
 
         if (other.CompareTag("Prato"))

@@ -134,7 +134,7 @@ public class Recipe : MonoBehaviour
                 }
             }else{
                 button.interactable = false;
-                buttonText.text = "???";
+                buttonText.text = "Desbloqueado!";
             }
         }
     }
