@@ -34,14 +34,36 @@ public class RecipeStrip : MonoBehaviour
 
     void Start()
     {
-        recipeNameText = GameObject.Find("Nome").GetComponent<TMP_Text>();
-        recipeDescriptionText = GameObject.Find("Descricao").GetComponent<TMP_Text>();
-        recipeGestImage = GameObject.Find("Gesto");
-        recipeImage = GameObject.Find("Imagem");
-
+        // Find components within this RecipeStrip's hierarchy, not globally
+        recipeNameText = transform.Find("Nome").GetComponent<TMP_Text>();
+        recipeDescriptionText = transform.Find("Descricao").GetComponent<TMP_Text>();
+        recipeGestImage = transform.Find("Gesto").gameObject;
+        recipeImage = transform.Find("Imagem").gameObject;
+        
+        if (recipeGestImage == null)
+        {
+            Debug.LogError("RecipeGestImage GameObject not found in " + gameObject.name + "!");
+            return;
+        }
+        
+        if (recipeNameText == null)
+        {
+            Debug.LogError("RecipeNameText not found in " + gameObject.name + "!");
+            return;
+        }
+        
         recipeNameText.text = recipeName;
         recipeDescriptionText.text = "É " + recipeDescription[0] + ", " + recipeDescription[1] + " e " + recipeDescription[2] + ".";
-        Debug.Log(recipeGest);
+        recipeGestImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Gestures/" + FormatNameForFile(recipeGest));
+        recipeImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Foods/Finished/" + FormatNameForFile(recipeName));
+        Debug.Log(recipeGest + " loaded for recipe: " + recipeName + " in object: " + gameObject.name);
+    }
+    
+    // Função para formatar nomes para busca de arquivos
+    private string FormatNameForFile(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return name;
+        return name.Replace(" ", "_").ToLower();
     }
 
     // Update is called once per frame

@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     private new GameObject camera;
     private SellingGame sellingGame;
 
-    private int money = 1000;
+    private int money = 100;
 
     private string[] recipes;
     private int[] recipeCosts;

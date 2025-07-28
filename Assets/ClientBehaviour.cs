@@ -53,6 +53,7 @@ public class ClientBehaviour : MonoBehaviour
         if (!ran && recipeDescription != null)
         {
             ran = true;
+            // Embaralha a descrição da receita
             for (int i = recipeDescription.Length - 1; i > 0; i--)
             {
                 int j = rng.Next(i + 1);
@@ -60,13 +61,36 @@ public class ClientBehaviour : MonoBehaviour
                 recipeDescription[i] = recipeDescription[j];
                 recipeDescription[j] = temp;
             }
-            if (rng.Next(0, 2) == 0)
+            
+            // Escolhe aleatoriamente entre diferentes tipos de diálogo
+            int dialogType = rng.Next(0, 8);
+            
+            switch (dialogType)
             {
-                chatBox.text = "Eu quero algo que seja " + recipeDescription[0] + ", também " + recipeDescription[1] + " e " + recipeDescription[2] + ".";
-            }
-            else
-            {
-                chatBox.text = "Só me passa um " + recipeName + " Bro.";
+                case 0:
+                    chatBox.text = "Eu quero algo que seja " + recipeDescription[0] + ", também " + recipeDescription[1] + " e " + recipeDescription[2] + ".";
+                    break;
+                case 1:
+                    chatBox.text = "Só me passa um " + recipeName + " Bro.";
+                    break;
+                case 2:
+                    chatBox.text = "Oi! Você pode me fazer algo " + recipeDescription[0] + " e " + recipeDescription[1] + "? Precisa ser " + recipeDescription[2] + " também!";
+                    break;
+                case 3:
+                    chatBox.text = "Estou com bucho vazio! Quero um " + recipeName + " bem caprichado!";
+                    break;
+                case 4:
+                    chatBox.text = "Me vê aí um prato que seja " + recipeDescription[0] + ", " + recipeDescription[1] + " e " + recipeDescription[2] + ", por favor!";
+                    break;
+                case 5:
+                    chatBox.text = "Olá! Gostaria de pedir algo " + recipeDescription[2] + " e " + recipeDescription[0] + ". Pode ser " + recipeName + "?";
+                    break;
+                case 6:
+                    chatBox.text = "Ei, chef! Tô precisando de algo bem " + recipeDescription[0] + ", " + recipeDescription[1] + " e " + recipeDescription[2] + "!";
+                    break;
+                case 7:
+                    chatBox.text = "Por favor, me faz " + recipeName + " ae Tô morrendo de fome aqui!";
+                    break;
             }
         }
     }

@@ -1382,6 +1382,10 @@ PrefabInstance:
       propertyPath: targetName
       value: Prato
       objectReference: {fileID: 0}
+    - target: {fileID: 1216634085171742376, guid: 0b49188b40b807a47ba98e4c24ac43f1, type: 3}
+      propertyPath: stackableName
+      value: Pao
+      objectReference: {fileID: 0}
     - target: {fileID: 6696261495265023674, guid: 0b49188b40b807a47ba98e4c24ac43f1, type: 3}
       propertyPath: m_Name
       value: Stackable (1)
