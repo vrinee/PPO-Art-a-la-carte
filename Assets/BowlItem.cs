@@ -11,7 +11,10 @@ public class BowlItem : MonoBehaviour
     public LayerMask obstacleLayerMask = -1; // What layers to check for obstacles
     public float checkRadius = 0.5f; // Radius for collision checking
 
+    [Header("Item Properties")]
     public string selfTag = "BowlItem"; // Tag for this item
+    public bool isDraggingEnabled = true; // Toggle to enable/disable dragging
+    public string targetBowlName = "Bowl"; // Name of the specific bowl to find
 
     private bool isDisplaced = false;
     
@@ -20,6 +23,8 @@ public class BowlItem : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (!isDraggingEnabled) return; // Exit if dragging is disabled
+        
         screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
         isDragging = false;
@@ -27,6 +32,8 @@ public class BowlItem : MonoBehaviour
 
     void OnMouseDrag()
     {
+        if (!isDraggingEnabled) return; // Exit if dragging is disabled
+        
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
         Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
 
@@ -40,6 +47,8 @@ public class BowlItem : MonoBehaviour
 
     void OnMouseUp()
     {
+        if (!isDraggingEnabled) return; // Exit if dragging is disabled
+        
         isDragging = false;
     }
     
@@ -47,19 +56,75 @@ public class BowlItem : MonoBehaviour
     {
         if (isDragging) return;
         
+        // Check if any other script on this object is dragging
+        if (IsAnyComponentDragging()) return;
 
         if (other.CompareTag("Prato"))
         {
-
-            Bowl bowl = FindFirstObjectByType<Bowl>();
-            bowl.enterItem(selfTag);
-            Destroy(gameObject);
+            Bowl bowl = FindBowlByName(targetBowlName);
+            if (bowl != null)
+            {
+                bowl.enterItem(selfTag);
+                if (!isDraggingEnabled) return;
+                Destroy(gameObject);
+            }
+            else
+            {
+                Debug.LogError("Bowl with name '" + targetBowlName + "' not found in the scene!");
+            }
         }
+    }
+    
+    bool IsAnyComponentDragging()
+    {
+        // Get all MonoBehaviour components on this GameObject
+        MonoBehaviour[] components = GetComponents<MonoBehaviour>();
+        
+        foreach (MonoBehaviour component in components)
+        {
+            // Skip this script to avoid checking itself
+            if (component == this) continue;
+            
+            // Use reflection to check for isDragging field
+            System.Type componentType = component.GetType();
+            System.Reflection.FieldInfo isDraggingField = componentType.GetField("isDragging", 
+                System.Reflection.BindingFlags.Public | 
+                System.Reflection.BindingFlags.NonPublic | 
+                System.Reflection.BindingFlags.Instance);
+            
+            if (isDraggingField != null && isDraggingField.FieldType == typeof(bool))
+            {
+                bool otherIsDragging = (bool)isDraggingField.GetValue(component);
+                if (otherIsDragging)
+                {
+                    Debug.Log($"Component {componentType.Name} is dragging, skipping trigger.");
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    Bowl FindBowlByName(string bowlName)
+    {
+        Bowl[] allBowls = FindObjectsByType<Bowl>(FindObjectsSortMode.None);
+        
+        foreach (Bowl bowl in allBowls)
+        {
+            if (bowl.gameObject.name == bowlName)
+            {
+                return bowl;
+            }
+        }
+        
+        return null; // Return null if no bowl with the specified name is found
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         mainCamera = Camera.main;
+        if(!isDraggingEnabled) return; // Exit if dragging is disabled
         CalculateScreenBounds();
     }
     
@@ -134,7 +199,7 @@ public class BowlItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.transform.position.x < 68 && !isDisplaced)
+        if (gameObject.transform.position.x < 68 && !isDisplaced && isDraggingEnabled)
         {
             float x = gameObject.transform.position.x + 0.01f;
             gameObject.transform.position = new Vector3(x, gameObject.transform.position.y, gameObject.transform.position.z);

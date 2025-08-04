@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3ad981ce05eab0840a1a0ac9c7a98296
+guid: 4dbea596b38c57b429db12ae5c2c22f6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8495930102800182737
-    second: Drawing (4)_0
+      213: -5311439775963968987
+    second: faca_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Drawing (4)_0
+      name: faca_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 60
-        width: 165
-        height: 133
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 975
+        y: 38
+        width: 373
+        height: 536
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1dde3f54a6b97e570800000000000000
-      internalID: 8495930102800182737
+      spriteID: 52a89cb3aa9f946b0800000000000000
+      internalID: -5311439775963968987
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f050ddc9df3f4114fa1b3af5629d3e02
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Drawing (4)_0: 8495930102800182737
+      faca_0: -5311439775963968987
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

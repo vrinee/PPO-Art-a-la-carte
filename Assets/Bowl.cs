@@ -10,9 +10,11 @@ public class Bowl : MonoBehaviour
 
     public Sprite[] states;
 
+    public bool spawnsItems = true;
     public Transform spawnPoint;
 
     public GameObject[] itemPrefab;
+    public bool isFinishBowl = false;
 
     private CookingBehaviour cookingBehaviour;
 
@@ -45,15 +47,16 @@ public class Bowl : MonoBehaviour
                 itemAmounts[i]--;
                 GetComponent<SpriteRenderer>().sprite = states[currentState];
                 currentState++;
-                if (i == itemTags.Length - 1 && itemAmounts[i] <= 0)
+                if (i == itemTags.Length - 1 && itemAmounts[i] <= 0 && isFinishBowl)
                 {
                     cookingBehaviour.EndRecipe();
                     return;
                 }
+                if(!spawnsItems) return;
                 if (itemAmounts[i] <= 0)
                 {
                     Instantiate(itemPrefab[i + 1], spawnPoint.position, Quaternion.identity);
-                    return;    
+                    return;
                 }
                 Instantiate(itemPrefab[i], spawnPoint.position, Quaternion.identity);
             }

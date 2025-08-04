@@ -30,10 +30,13 @@ public class CookingBehaviour : MonoBehaviour
     public GameObject[] slicesPrefabs;
 
     public int slicesAmount;
-    private int slicesController = 0;
+    public int slicesController = 0;
 
     public int sliceablesAmount;
-    private int sliceablesController = 0;
+    public int sliceablesController = 0;
+
+    public GameObject UIcursor;
+    private GameObject cursorInstance;
 
     private int washablesController = 0;
 
@@ -118,6 +121,7 @@ public class CookingBehaviour : MonoBehaviour
             Instantiate(washablePrefab, washableSpawnPoint.position, Quaternion.identity);
             SpawnSliceable();
         }
+
     }
 
     // Update is called once per frame
@@ -186,6 +190,7 @@ public class CookingBehaviour : MonoBehaviour
                 Debug.Log("All slices completed for the recipe: " + recipeName);
                 levelLoader.CompleteTransition();
                 StartCoroutine(SmoothMoveCamera(cameraTransformSlice));
+                Destroy(cursorInstance);
                 return;
             }
             RestartSliceable();
@@ -200,6 +205,7 @@ public class CookingBehaviour : MonoBehaviour
         {
             levelLoader.CompleteTransition();
             StartCoroutine(SmoothMoveCamera(cameraTransformWash));
+            CreateCursorInstance();
             return;
         }
         Instantiate(washablePrefab, washableSpawnPoint.position, Quaternion.identity);
@@ -208,5 +214,17 @@ public class CookingBehaviour : MonoBehaviour
     public bool IsRecipeToasted()
     {
         return IsToasted;
+    }
+
+    private void CreateCursorInstance()
+    {
+        if (UIcursor != null)
+        {
+            cursorInstance = Instantiate(UIcursor);
+        }
+        else
+        {
+            Debug.LogError("UIcursor prefab is not assigned!");
+        }
     }
 }

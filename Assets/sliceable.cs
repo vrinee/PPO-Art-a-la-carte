@@ -5,6 +5,7 @@ public class sliceable : MonoBehaviour
 
     [SerializeField] private GameObject slice1and2hitbox;
     [SerializeField] private GameObject slice2and3hitbox;
+    [SerializeField] private GameObject slice3and4hitbox;
 
     [SerializeField] private GameObject unslicedObject;
     [SerializeField] private GameObject slicedObject;
@@ -14,12 +15,18 @@ public class sliceable : MonoBehaviour
     [SerializeField] private GameObject slice2;
 
     [SerializeField] private GameObject slice3;
+
+    [SerializeField] private GameObject slice4;
     
     private bool isSliced = false;
 
     private bool isSlice1Cut = false;
 
+    private bool isSlice2Cut = false;
+
     private bool isSlice3Cut = false;
+
+    private bool isSlice4Cut = false;
 
     public void Cutted(GameObject cutBox)
     {
@@ -28,25 +35,69 @@ public class sliceable : MonoBehaviour
             isSliced = true;
             Slice();
         }
+        
+        // Handle cutting between slice 1 and slice 2
         if (cutBox == slice1and2hitbox)
         {
-            var sliceScript = slice1.GetComponent<slice>();
-            sliceScript.dragable = true;
-            sliceScript.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            isSlice1Cut = true;
+            // Enable slice 1 (left of cut)
+            if (!isSlice1Cut)
+            {
+                var sliceScript1 = slice1.GetComponent<slice>();
+                sliceScript1.dragable = true;
+                sliceScript1.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                isSlice1Cut = true;
+            }
+            
+            // Enable slice 2 (right of cut)
+            if (!isSlice2Cut)
+            {
+                var sliceScript2 = slice2.GetComponent<slice>();
+                sliceScript2.dragable = true;
+                sliceScript2.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                isSlice2Cut = true;
+            }
         }
+        // Handle cutting between slice 2 and slice 3
         else if (cutBox == slice2and3hitbox)
         {
-            var sliceScript = slice3.GetComponent<slice>();
-            sliceScript.dragable = true;
-            sliceScript.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            isSlice3Cut = true; 
+            // Enable slice 2 (left of cut) if not already enabled
+            if (!isSlice2Cut)
+            {
+                var sliceScript2 = slice2.GetComponent<slice>();
+                sliceScript2.dragable = true;
+                sliceScript2.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                isSlice2Cut = true;
+            }
+            
+            // Enable slice 3 (right of cut)
+            if (!isSlice3Cut)
+            {
+                var sliceScript3 = slice3.GetComponent<slice>();
+                sliceScript3.dragable = true;
+                sliceScript3.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                isSlice3Cut = true; 
+            }
         }
-        if (isSlice1Cut && isSlice3Cut)
+        // Handle cutting between slice 3 and slice 4
+        else if (cutBox == slice3and4hitbox)
         {
-            var sliceScript = slice2.GetComponent<slice>();
-            sliceScript.dragable = true;
-            sliceScript.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            // Enable slice 3 (left of cut) if not already enabled
+            if (!isSlice3Cut)
+            {
+                var sliceScript3 = slice3.GetComponent<slice>();
+                sliceScript3.dragable = true;
+                sliceScript3.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                isSlice3Cut = true;
+            }
+            
+            // Enable slice 4 (right of cut)
+            if (!isSlice4Cut)
+            {
+                var sliceScript4 = slice4.GetComponent<slice>();
+                sliceScript4.dragable = true;
+                sliceScript4.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                isSlice4Cut = true;
+            }
         }
     }
     void Slice()

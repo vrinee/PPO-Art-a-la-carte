@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b3c5463980e301645be06ac7e6dc6e11
+guid: 852e082b1b6ffba43985ba700810eed9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2011048075488285556
-    second: Drawing (3)_0
+      213: -9155159199096008773
+    second: pote_alfc_1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Drawing (3)_0
+      name: pote_alfc_1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 78
-        width: 162
-        height: 140
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1335
+        y: 402
+        width: 542
+        height: 344
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c8ca94a2e625714e0800000000000000
-      internalID: -2011048075488285556
+      spriteID: bbf8bbbe63752f080800000000000000
+      internalID: -9155159199096008773
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a05ca46e96e33ec42b8368fd25e0635f
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Drawing (3)_0: -2011048075488285556
+      pote_alfc_1_0: -9155159199096008773
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

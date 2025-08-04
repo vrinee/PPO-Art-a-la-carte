@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5245190641941848199}
   - component: {fileID: 4764110066586108888}
   - component: {fileID: 8707323393487870369}
+  - component: {fileID: 4566028949940514261}
   m_Layer: 0
   m_Name: Slice 1
   m_TagString: Untagged
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2418298294964231319, guid: 4beefe57ae6c70a41a22b18f0206a447, type: 3}
+  m_Sprite: {fileID: 437722183271672400, guid: 13a1cf2c2efea4c4fab1e6b466d655c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -131,6 +132,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dragable: 0
   targetTag: Prato
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  checkRadius: 0.5
 --- !u!61 &8707323393487870369
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -165,15 +170,34 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.1420061, y: 0.0067623854}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.72, y: 1.29}
+    oldSize: {x: 1.49, y: 2.14}
     newSize: {x: 1.72, y: 1.29}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.72, y: 1.29}
+  m_Size: {x: 1.3277923, y: 2.277281}
   m_EdgeRadius: 0
+--- !u!114 &4566028949940514261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836221877845333327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03dde27459de6a04aa42808646f653a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  checkRadius: 0.5
+  selfTag: Alface
+  isDraggingEnabled: 0
+  targetBowlName: Tigela Slice

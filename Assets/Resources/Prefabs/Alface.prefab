@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3421769814380218327}
   - component: {fileID: 9130282688028557087}
   - component: {fileID: 3885588262613823397}
+  - component: {fileID: -8812385440874049793}
   m_Layer: 0
   m_Name: Alface
   m_TagString: Untagged
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6405367054851369479, guid: 9f03822033162384a945083e8a447fbf, type: 3}
+  m_Sprite: {fileID: -2106834805460415382, guid: f4fe754f453061643bcd04046043c133, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -151,17 +152,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.1546588, y: 0.00000011920929}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.98, y: 1.58}
+    oldSize: {x: 4.33, y: 2.58}
     newSize: {x: 4.98, y: 1.58}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.98, y: 1.58}
+  m_Size: {x: 4.670682, y: 2.6177094}
   m_EdgeRadius: 0
 --- !u!114 &3885588262613823397
 MonoBehaviour:
@@ -175,6 +176,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef7a946474bf2574fb7f680836e765b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDragging: 0
+  dragable: 1
   sinkTag: Torneira
   targetTag: Prato
-  washedSprite: {fileID: -6405367054851369479, guid: 9f03822033162384a945083e8a447fbf, type: 3}
+  washedSprite: {fileID: -2106834805460415382, guid: f4fe754f453061643bcd04046043c133, type: 3}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  checkRadius: 0.5
+--- !u!114 &-8812385440874049793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4295398899944970721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03dde27459de6a04aa42808646f653a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  checkRadius: 0.5
+  selfTag: Alface
+  isDraggingEnabled: 0
+  targetBowlName: Tigela wash
