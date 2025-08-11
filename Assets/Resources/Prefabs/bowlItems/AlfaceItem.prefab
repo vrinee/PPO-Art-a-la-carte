@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6405367054851369479, guid: 9f03822033162384a945083e8a447fbf, type: 3}
+  m_Sprite: {fileID: -2106834805460415382, guid: f4fe754f453061643bcd04046043c133, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -107,6 +107,8 @@ MonoBehaviour:
     m_Bits: 4294967295
   checkRadius: 0.5
   selfTag: Alface
+  isDraggingEnabled: 1
+  targetBowlName: Tigela
 --- !u!50 &3010606499461921232
 Rigidbody2D:
   serializedVersion: 5
@@ -168,15 +170,15 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.009979248, y: -0.02494502}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.98, y: 1.58}
+    oldSize: {x: 4.33, y: 2.58}
     newSize: {x: 4.98, y: 1.58}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.98, y: 1.58}
+  m_Size: {x: 4.521019, y: 2.6476445}
   m_EdgeRadius: 0

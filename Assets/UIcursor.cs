@@ -5,7 +5,7 @@ public class UIcursor : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //Cursor.visible = false;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -16,6 +16,6 @@ public class UIcursor : MonoBehaviour
 
     void OnDestroy()
     {
-        //Cursor.visible = true;
+        Cursor.visible = true;
     }
 }

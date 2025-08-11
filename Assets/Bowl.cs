@@ -31,7 +31,7 @@ public class Bowl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (cookingBehaviour.IsRecipeToasted() && !isStarted)
+        if (cookingBehaviour.IsRecipeToasted() && !isStarted && isFinishBowl) 
         {
             Instantiate(itemPrefab[0], spawnPoint.position, Quaternion.identity);
             isStarted = true;
