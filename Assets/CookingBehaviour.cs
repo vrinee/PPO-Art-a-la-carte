@@ -25,14 +25,12 @@ public class CookingBehaviour : MonoBehaviour
 
     public GameObject washablePrefab;
 
-    public GameObject sliceablePrefab;
+    public GameObject[] sliceablePrefab;
 
-    public GameObject[] slicesPrefabs;
-
-    public int slicesAmount;
+    public int[] slicesAmount;
     public int slicesController = 0;
 
-    public int sliceablesAmount;
+    public int[] sliceablesAmount;
     public int sliceablesController = 0;
 
     public GameObject UIcursor;
@@ -51,6 +49,18 @@ public class CookingBehaviour : MonoBehaviour
     private GameManager gameManager;
 
     private GameObject sliceable;
+
+    public int sliceableIndex = 0;
+
+    public int sliceIndex = 0;
+
+    public GameObject[] sliceBowls;
+
+    public GameObject escapePoint;
+
+    private Transform bowl1Transform;
+
+    private Transform bowl2Transform;
 
     private bool IsToasted = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -98,6 +108,55 @@ public class CookingBehaviour : MonoBehaviour
         Vector3 targetPosition = target.position;
         targetPosition.z = mainCamera.transform.position.z;
         mainCamera.transform.position = targetPosition;
+    }
+
+    IEnumerator MoveBowlsSmooth()
+    {
+        if (bowl1Transform == null || bowl2Transform == null || escapePoint == null)
+        {
+            Debug.LogError("Bowl transforms or escape point not set!");
+            yield break;
+        }
+
+        // Store initial positions
+        Vector3 bowl1StartPos = bowl1Transform.position;
+        Vector3 bowl2StartPos = bowl2Transform.position;
+        
+        // Target positions
+        Vector3 bowl1TargetPos = escapePoint.transform.position;
+        Vector3 bowl2TargetPos = bowl1StartPos;
+
+        float duration = 1.0f; // Movement duration in seconds
+        float elapsedTime = 0f;
+
+        // Smooth movement over time
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+            // Use smooth curve for better animation
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            // Move bowl1 to escape point
+            bowl1Transform.position = Vector3.Lerp(bowl1StartPos, bowl1TargetPos, t);
+            
+            // Move bowl2 to bowl1's original position
+            bowl2Transform.position = Vector3.Lerp(bowl2StartPos, bowl2TargetPos, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure final positions are exact
+        bowl1Transform.position = bowl1TargetPos;
+        bowl2Transform.position = bowl2TargetPos;
+
+        // Wait a brief moment then destroy bowl1
+        yield return new WaitForSeconds(0.3f);
+        
+        if (bowl1Transform != null && bowl1Transform.gameObject != null)
+        {
+            Destroy(bowl1Transform.gameObject);
+        }
     }
     void Start()
     {
@@ -154,7 +213,8 @@ public class CookingBehaviour : MonoBehaviour
     {
         if (sliceableSpawnPoint != null && sliceablePrefab != null)
         {
-            sliceable = Instantiate(sliceablePrefab, sliceableSpawnPoint.position, Quaternion.identity);
+            Debug.Log("Spawning sliceable: " + sliceablePrefab[sliceableIndex].name);
+            sliceable = Instantiate(sliceablePrefab[sliceableIndex], sliceableSpawnPoint.position, Quaternion.identity);
             sliceable.transform.SetParent(sliceableSpawnPoint);
         }
         else
@@ -180,18 +240,33 @@ public class CookingBehaviour : MonoBehaviour
     public void FinnishSlice()
     {
         slicesController++;
-        if (slicesController >= slicesAmount)
+        if (slicesController >= slicesAmount[sliceIndex])
         {
             slicesController = 0;
             sliceablesController++;
-            if (sliceablesController >= sliceablesAmount)
+            if (sliceablesController >= sliceablesAmount[sliceIndex])
             {
-                Destroy(sliceable);
-                Debug.Log("All slices completed for the recipe: " + recipeName);
-                levelLoader.CompleteTransition();
-                StartCoroutine(SmoothMoveCamera(cameraTransformSlice));
-                Destroy(cursorInstance);
-                return;
+                sliceablesController = 0;
+                sliceableIndex++;
+                if (sliceBowls.Length > 0 && !(sliceIndex >= sliceablePrefab.Length - 1))
+                {
+                    bowl1Transform = sliceBowls[sliceIndex].transform;
+                    bowl2Transform = sliceBowls[sliceIndex + 1].transform;
+                    
+                    // Start smooth movement for bowls
+                    StartCoroutine(MoveBowlsSmooth());
+                }
+                if (sliceIndex >= sliceablePrefab.Length - 1)
+                {
+                    Destroy(sliceable);
+                    Debug.Log("All slices completed for the recipe: " + recipeName);
+                    levelLoader.CompleteTransition();
+                    StartCoroutine(SmoothMoveCamera(cameraTransformSlice));
+                    Destroy(cursorInstance);
+                    return;
+
+                }
+                sliceIndex++;
             }
             RestartSliceable();
 
@@ -201,7 +276,7 @@ public class CookingBehaviour : MonoBehaviour
     public void WashableDone()
     {
         washablesController++;
-        if (washablesController >= sliceablesAmount)
+        if (washablesController >= sliceablesAmount[0])
         {
             levelLoader.CompleteTransition();
             StartCoroutine(SmoothMoveCamera(cameraTransformWash));
