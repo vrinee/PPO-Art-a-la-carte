@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     private new GameObject camera;
     private SellingGame sellingGame;
 
-    private int money = 100;
+    private int money = 150;
 
     private string[] recipes;
     private int[] recipeCosts;
@@ -84,6 +84,11 @@ public class GameManager : MonoBehaviour
     public string[][] GetRecipeDescription()
     {
         return recipeDescription;
+    }
+
+    public string[] GetAllRecipeNames()
+    {
+        return recipes;
     }
 
     public int GetMoney()

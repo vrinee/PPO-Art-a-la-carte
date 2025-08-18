@@ -79,7 +79,11 @@ public class Washable : MonoBehaviour
         cookingBehaviour = FindAnyObjectByType<CookingBehaviour>();
         mainCamera = Camera.main;
         CalculateScreenBounds();
+        
+        // Disable BowlItem component if not washed initially
     }
+    
+
     
     void CalculateScreenBounds()
     {

@@ -62,11 +62,31 @@ public class BowlItem : MonoBehaviour
         if (other.CompareTag("Prato"))
         {
             Bowl bowl = FindBowlByName(targetBowlName);
-            if (bowl != null)
+            
+            // Check if the item is still washed (if it has a Washable component)
+            Washable washable = GetComponent<Washable>();
+            bool isWashed = true; // Default to true if no Washable component
+            if (washable != null)
+            {
+                // Use reflection to check the private isWashed field
+                System.Type washableType = washable.GetType();
+                System.Reflection.FieldInfo isWashedField = washableType.GetField("isWashed", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (isWashedField != null)
+                {
+                    isWashed = (bool)isWashedField.GetValue(washable);
+                }
+            }
+            
+            if (bowl != null && isWashed)
             {
                 bowl.enterItem(selfTag);
                 if (!isDraggingEnabled) return;
                 Destroy(gameObject);
+            }
+            else if (bowl != null && !isWashed)
+            {
+                Debug.LogWarning("Item must be washed before entering the bowl!");
             }
             else
             {

@@ -80,9 +80,35 @@ public class Book : MonoBehaviour
             var stripComponent = recipeStrip.GetComponent<RecipeStrip>();
             if (stripComponent == null)
                 Debug.LogError("RecipeStrip component not found on prefab!");
-            stripComponent.SetRecipeName(recipeNames[i]);
-            stripComponent.SetRecipeDescription(recipesDescription[i]);
-            stripComponent.SetRecipeGest(recipesGest[i]);
+            
+            // Find the correct index for this recipe in the full arrays
+            int recipeIndex = FindRecipeIndex(recipeNames[i]);
+            if (recipeIndex != -1)
+            {
+                stripComponent.SetRecipeName(recipeNames[i]);
+                stripComponent.SetRecipeDescription(recipesDescription[recipeIndex]);
+                stripComponent.SetRecipeGest(recipesGest[recipeIndex]);
+            }
+            else
+            {
+                Debug.LogError("Recipe index not found for: " + recipeNames[i]);
+            }
         }
+    }
+
+    int FindRecipeIndex(string recipeName)
+    {
+        // Get all recipe names (not just unlocked ones) to find the correct index
+        string[] allRecipeNames = sellingGame.GetAllRecipeNames();
+        if (allRecipeNames == null) return -1;
+        
+        for (int i = 0; i < allRecipeNames.Length; i++)
+        {
+            if (allRecipeNames[i] == recipeName)
+            {
+                return i;
+            }
+        }
+        return -1; // Recipe not found
     }
 }

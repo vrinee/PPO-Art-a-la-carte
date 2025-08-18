@@ -55,8 +55,8 @@ namespace PDollarGestureRecognizer
         private int recipeIndex;
 
         private string[] ClientesSprites =
-            {"AdorableCutieChiikawa", "SweetBabyHachiware2", "SweetieMomonga", "YahaUsagi"}; // Sprites
-        
+            {"Cliente1", "Cliente2", "SweetieMomonga", "YahaUsagi"}; // Sprites
+
 
         private GameObject newCliente;
 
@@ -105,6 +105,16 @@ namespace PDollarGestureRecognizer
         public string[][] GetRecipeDescription()
         {
             return RecipeDescriptions;
+        }
+        
+        public string[] GetAllRecipeNames()
+        {
+            // Get all recipe names from GameManager (not just unlocked ones)
+            if (gameManager != null)
+            {
+                return gameManager.GetAllRecipeNames();
+            }
+            return null;
         }
         void AssignGestures()
         {

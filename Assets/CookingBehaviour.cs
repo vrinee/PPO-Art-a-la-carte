@@ -6,6 +6,8 @@ public class CookingBehaviour : MonoBehaviour
 {
 
     public string[] ToastableTags;
+
+    public bool ToastablePanning = false;
     private bool[] readyToBuild;
     public Transform cameraTransformToast;
 
