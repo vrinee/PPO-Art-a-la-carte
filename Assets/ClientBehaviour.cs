@@ -23,7 +23,7 @@ public class ClientBehaviour : MonoBehaviour
     public void SetSprite(string sprite)
     {
         this.sprite = sprite;
-        gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Clientes/" + sprite);
+        gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Clientes/" + sprite);
     }
     public void SetGestureName(string gestureName)
     {

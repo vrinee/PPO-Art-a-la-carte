@@ -55,7 +55,7 @@ namespace PDollarGestureRecognizer
         private int recipeIndex;
 
         private string[] ClientesSprites =
-            {"Cliente1", "Cliente2", "SweetieMomonga", "YahaUsagi"}; // Sprites
+            {"Cliente1", "Cliente2"}; // Sprites
 
 
         private GameObject newCliente;
@@ -64,9 +64,9 @@ namespace PDollarGestureRecognizer
         private int moneyPerOrder = 100;
         private int streak = 0;
         private int streakMoney = 0;
-        public Text moneyText;
+        public TMP_Text moneyText;
         public TMP_Text chatBox;
-        public Text streakText;
+        public TMP_Text streakText;
 
         private int LastSpite = -1;
 
@@ -258,9 +258,9 @@ namespace PDollarGestureRecognizer
                 moneyText.text = "Dinheiro: " + money.ToString();
                 moneyPerOrder = 69; //this is a default, the actual value is set in spawnClient
                 chatBox.text = "";
-                Destroy(newCliente);
+                StartCoroutine(ExitClient());
                 //reseta o gesto
-                wanted = null;
+
                 // Atualiza o dineiro no GameManager
                 gameManager.SetMoney(money);
                 
@@ -307,6 +307,23 @@ namespace PDollarGestureRecognizer
             Debug.Log("Cleared!");
         }
 
+        IEnumerator ExitClient()
+        {
+            if (newCliente != null)
+            {
+                newCliente.GetComponent<Animator>().SetTrigger("Exit");
+                Animator chatAnim = GameObject.Find("chatbubble").GetComponent<Animator>();
+                chatAnim.SetTrigger("Exit");
+                // Wait for the transition time (0.3 seconds)
+                yield return new WaitForSeconds(0.3f);
+
+                // Destroy the client after the animation
+                Destroy(newCliente);
+                wanted = null;
+                message = "";
+            }
+        }
+
         void StartGame()
         {
             // Start the coroutine to spawn clients
@@ -336,13 +353,19 @@ namespace PDollarGestureRecognizer
         void SpawnClient()
         {
             
-            newCliente = Instantiate(Cliente, ClienteSpawn.position, Quaternion.identity);
+            newCliente = Instantiate(Cliente, ClienteSpawn.position, Quaternion.identity,ClienteSpawn);
             recipeIndex = rng.Next(Recipes.Length); // Random recipe index
             moneyPerOrder = (gameManager.GetRecipeCost(Recipes[recipeIndex]))/10;//here is where the moneyperorder is set
-            int spriteIndx = rng.Next(ClientesSprites.GetLength(0) - 1); // Random sprite index
-            while (spriteIndx == LastSpite) 
+            
+            int spriteIndx = rng.Next(ClientesSprites.Length); // Fixed: use Length instead of Length-1
+            
+            // Only avoid repeating if we have more than 1 sprite
+            if (ClientesSprites.Length > 1)
             {
-                spriteIndx = rng.Next(ClientesSprites.GetLength(0) - 1);
+                while (spriteIndx == LastSpite) 
+                {
+                    spriteIndx = rng.Next(ClientesSprites.Length);
+                }
             }
             ClientBehaviour clienteScript = newCliente.GetComponent<ClientBehaviour>();
             if (clienteScript != null)
