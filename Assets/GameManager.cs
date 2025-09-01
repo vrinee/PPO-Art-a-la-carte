@@ -56,7 +56,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public int GetRecipeCost(string RecipeName){
+    public int GetRecipeCost(string RecipeName)
+    {
         for (int i = 0; i < recipes.Length; i++)
         {
             if (RecipeName == recipes[i])
@@ -102,7 +103,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("Money added: " + amount + ". New total: " + money);
         UpdateMoney();
     }
-    void UpdateMoney(){
+    void UpdateMoney()
+    {
         moneyText.text = "Dinheiro:" + money.ToString();
     }
 
@@ -199,7 +201,8 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    public void SetRecipeReady(string recipeName){
+    public void SetRecipeReady(string recipeName)
+    {
         for (int i = 0; i < recipes.Length; i++)
         {
             if (recipeName == recipes[i])
@@ -211,7 +214,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool IsRecipeReady(string recipeName){
+    public bool IsRecipeReady(string recipeName)
+    {
         for (int i = 0; i < recipes.Length; i++)
         {
             if (recipeName == recipes[i])
@@ -221,5 +225,31 @@ public class GameManager : MonoBehaviour
         }
         Debug.LogError("Recipe " + recipeName + " not found.");
         return false;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            // Handle the return key press - Reset game state
+            Debug.Log("Resetting game state to default values...");
+            
+            // Reset money to default value
+            money = 150;
+            
+            // Reset all recipes to not ready (false as default)
+            if (isRecipeReady != null)
+            {
+                for (int i = 0; i < isRecipeReady.Length; i++)
+                {
+                    isRecipeReady[i] = false;
+                }
+            }
+            
+            Debug.Log("Game state reset complete. Money: " + money + ", All recipes locked.");
+            
+            // Load the GameMenu scene
+            SceneManager.LoadScene("GameMenu");
+        }
     }
 }

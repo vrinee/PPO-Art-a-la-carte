@@ -20,6 +20,10 @@ public class Bowl : MonoBehaviour
 
     private int currentState = 0;
 
+    private int lastAdded = -1;
+
+    private int currentAmount = 0;
+
     private bool isStarted = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,7 +35,7 @@ public class Bowl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (cookingBehaviour.IsRecipeToasted() && !isStarted && isFinishBowl) 
+        if (cookingBehaviour.IsRecipeToasted() && !isStarted && isFinishBowl)
         {
             Instantiate(itemPrefab[0], spawnPoint.position, Quaternion.identity);
             isStarted = true;
@@ -43,7 +47,8 @@ public class Bowl : MonoBehaviour
         for (int i = 0; i < itemTags.Length; i++)
         {
             if (tag == itemTags[i])
-            {
+            {   
+                if (currentAmount == 0) currentAmount = itemAmounts[i];
                 itemAmounts[i]--;
                 GetComponent<SpriteRenderer>().sprite = states[currentState];
                 currentState++;
@@ -52,7 +57,7 @@ public class Bowl : MonoBehaviour
                     cookingBehaviour.EndRecipe();
                     return;
                 }
-                if(!spawnsItems) return;
+                if (!spawnsItems) return;
                 if (itemAmounts[i] <= 0)
                 {
                     Instantiate(itemPrefab[i + 1], spawnPoint.position, Quaternion.identity);
@@ -61,6 +66,16 @@ public class Bowl : MonoBehaviour
                 Instantiate(itemPrefab[i], spawnPoint.position, Quaternion.identity);
             }
         }
+    }
+
+    public void resetState()
+    {
+        for (int i = 0; i < currentAmount; i++)
+        {
+            GetComponent<SpriteRenderer>().sprite = states[currentState];
+            currentState--;
+        }
+        currentAmount = 0;
     }
     
 }

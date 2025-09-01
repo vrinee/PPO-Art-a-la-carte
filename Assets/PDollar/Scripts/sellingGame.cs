@@ -62,8 +62,8 @@ namespace PDollarGestureRecognizer
 
         private int money;
         private int moneyPerOrder = 100;
-        private int streak = 0;
-        private int streakMoney = 0;
+        public int streak = 0;
+        public int streakMoney = 0;
         public TMP_Text moneyText;
         public TMP_Text chatBox;
         public TMP_Text streakText;
@@ -93,6 +93,7 @@ namespace PDollarGestureRecognizer
         private Button TerminarButton;
 
         private LevelLoader levelLoader;
+
 
         public string[] GetRecipes()
         {

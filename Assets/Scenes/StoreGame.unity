@@ -2369,9 +2369,9 @@ MonoBehaviour:
   messageText: {fileID: 990079421}
   Cliente: {fileID: 4241696421746574426, guid: 148c24b8e5b37cc4d9521c24f38e2f65, type: 3}
   ClienteSpawn: {fileID: 1018868668}
-  moneyText: {fileID: 0}
+  moneyText: {fileID: 1473539586}
   chatBox: {fileID: 1560800242}
-  streakText: {fileID: 0}
+  streakText: {fileID: 908787982}
   modalPrefab: {fileID: 6714360826492323496, guid: d2bfce35410e07342971be26df23e1cb, type: 3}
 --- !u!1 &1693515502
 GameObject:

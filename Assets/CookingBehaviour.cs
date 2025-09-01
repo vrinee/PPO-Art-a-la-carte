@@ -229,6 +229,10 @@ public class CookingBehaviour : MonoBehaviour
     {
         if (sliceable != null)
         {
+            Bowl bowlAlfa = GameObject.Find("Tigela Slice Alfa").GetComponent<Bowl>();
+            Bowl bowlBeta = GameObject.Find("Tigela Slice Franga").GetComponent<Bowl>();
+            bowlAlfa.resetState();
+            bowlBeta.resetState();
             Destroy(sliceable);
             slicesController = 0;
             SpawnSliceable();
