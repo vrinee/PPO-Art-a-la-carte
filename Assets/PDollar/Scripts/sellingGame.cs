@@ -80,7 +80,7 @@ namespace PDollarGestureRecognizer
         {
             this.money = money;
             startingMoney = money;
-            moneyText.text = "Dinheiro: " + money.ToString();
+            moneyText.text = "Dinheiro: " + money.ToString() + " <sprite index=0>";
             Debug.Log("Money updated to: " + money + " in sellingGame.");
         }
 
@@ -256,7 +256,7 @@ namespace PDollarGestureRecognizer
                 else streakMoney = 3;
                 streakText.text = "Sequência: " + streak.ToString() + "\nBônus: " + streakMoney.ToString();
                 money += moneyPerOrder + streakMoney;
-                moneyText.text = "Dinheiro: " + money.ToString();
+                moneyText.text = "Dinheiro: " + money.ToString() + " <sprite index=0>";
                 moneyPerOrder = 69; //this is a default, the actual value is set in spawnClient
                 chatBox.text = "";
                 StartCoroutine(ExitClient());
