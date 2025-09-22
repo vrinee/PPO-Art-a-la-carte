@@ -53,7 +53,7 @@ public class slice : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!dragable) return;
-        if (isDragging) return;
+        //if (isDragging) return;
         if (other.CompareTag(targetTag))
         {
             cookingBehaviour.FinnishSlice();

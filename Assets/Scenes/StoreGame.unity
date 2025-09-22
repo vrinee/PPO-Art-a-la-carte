@@ -1063,11 +1063,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-    m_FontSize: 58
-    m_FontStyle: 0
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 16
+    m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 80
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -1100,8 +1100,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 158.84, y: -117.9}
-  m_SizeDelta: {x: 317.68, y: 111.09}
+  m_AnchoredPosition: {x: 40.488, y: -164}
+  m_SizeDelta: {x: 80.975, y: 25.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1018868667
 GameObject:
@@ -2369,6 +2369,8 @@ MonoBehaviour:
   messageText: {fileID: 990079421}
   Cliente: {fileID: 4241696421746574426, guid: 148c24b8e5b37cc4d9521c24f38e2f65, type: 3}
   ClienteSpawn: {fileID: 1018868668}
+  streak: 0
+  streakMoney: 0
   moneyText: {fileID: 1473539586}
   chatBox: {fileID: 1560800242}
   streakText: {fileID: 908787982}

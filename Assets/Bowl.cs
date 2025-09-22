@@ -7,6 +7,7 @@ public class Bowl : MonoBehaviour
 
     public string[] itemTags;
     public int[] itemAmounts;
+    public int[] itemGroups;
 
     public Sprite[] states;
 
@@ -18,11 +19,10 @@ public class Bowl : MonoBehaviour
 
     private CookingBehaviour cookingBehaviour;
 
-    private int currentState = 0;
+    public int currentState = 0;
 
-    private int lastAdded = -1;
 
-    private int currentAmount = 0;
+    public int currentAmount = 0;
 
     private bool isStarted = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -50,6 +50,7 @@ public class Bowl : MonoBehaviour
             {   
                 if (currentAmount == 0) currentAmount = itemAmounts[i];
                 itemAmounts[i]--;
+                if (itemAmounts[i] / itemGroups[i] == 0 ) currentAmount = itemAmounts[i];
                 GetComponent<SpriteRenderer>().sprite = states[currentState];
                 currentState++;
                 if (i == itemTags.Length - 1 && itemAmounts[i] <= 0 && isFinishBowl)
@@ -68,14 +69,29 @@ public class Bowl : MonoBehaviour
         }
     }
 
-    public void resetState()
+    /* public void resetState(string tag)
     {
-        for (int i = 0; i < currentAmount; i++)
+        int tagIndex = -1;
+        for (int i = 0; i < itemTags.Length; i++)
         {
-            GetComponent<SpriteRenderer>().sprite = states[currentState];
-            currentState--;
+            if (itemTags[i] == tag)
+            {
+                tagIndex = i;
+                break;
+            }
         }
-        currentAmount = 0;
-    }
+        for (int i = 0; i < currentAmount - itemAmounts[tagIndex]; i++)
+        {
+            if (i == 0)
+            {
+                currentState -= 2;
+            }else
+            {
+                currentState--;
+            }
+            GetComponent<SpriteRenderer>().sprite = states[currentState];
+        }
+        itemAmounts[tagIndex] = currentAmount;
+    } */
     
 }

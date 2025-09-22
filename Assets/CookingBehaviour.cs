@@ -229,10 +229,10 @@ public class CookingBehaviour : MonoBehaviour
     {
         if (sliceable != null)
         {
-            Bowl bowlAlfa = GameObject.Find("Tigela Slice Alfa").GetComponent<Bowl>();
+            /* Bowl bowlAlfa = GameObject.Find("Tigela Slice Alfa").GetComponent<Bowl>();
             Bowl bowlBeta = GameObject.Find("Tigela Slice Franga").GetComponent<Bowl>();
             bowlAlfa.resetState();
-            bowlBeta.resetState();
+            bowlBeta.resetState(); */
             Destroy(sliceable);
             slicesController = 0;
             SpawnSliceable();
@@ -243,6 +243,24 @@ public class CookingBehaviour : MonoBehaviour
         }
     }
 
+    /* public void ResetSliceable()
+    {
+        if (sliceable != null)
+        {   
+            BowlItem bowlItem = sliceable.GetComponent<BowlItem>();
+            Bowl bowlAlfa = GameObject.Find("Tigela Slice Alfa").GetComponent<Bowl>();
+            Bowl bowlBeta = GameObject.Find("Tigela Slice Franga").GetComponent<Bowl>();
+            bowlAlfa.resetState(bowlItem.selfTag);
+            bowlBeta.resetState(bowlItem.selfTag);
+            Destroy(sliceable);
+            slicesController = 0;
+            SpawnSliceable();
+        }
+        else
+        {
+            Debug.LogError("Sliceable not found to restart!");
+        }
+    } */
     public void FinnishSlice()
     {
         slicesController++;
@@ -258,7 +276,7 @@ public class CookingBehaviour : MonoBehaviour
                 {
                     bowl1Transform = sliceBowls[sliceIndex].transform;
                     bowl2Transform = sliceBowls[sliceIndex + 1].transform;
-                    
+
                     // Start smooth movement for bowls
                     StartCoroutine(MoveBowlsSmooth());
                 }

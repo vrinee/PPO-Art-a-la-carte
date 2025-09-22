@@ -156,9 +156,9 @@ public class GameManager : MonoBehaviour
         isRecipeReady = new bool[recipes.Length];
         for (int i = 0; i < isRecipeReady.Length; i++)
         {
-            isRecipeReady[i] = true; //should be false as default, change to true to unlock every recipe without needing to do the minigame
+            isRecipeReady[i] = false; //should be false as default, change to true to unlock every recipe without needing to do the minigame
         }
-        //isRecipeReady[0] = true; // Set the first recipe as ready for testing
+        //isRecipeReady[1] = true; // Set the first recipe as ready for testing
         moneyText = GameObject.Find("Text (Dinheiro)").GetComponent<TMP_Text>();
         UpdateMoney();
     }

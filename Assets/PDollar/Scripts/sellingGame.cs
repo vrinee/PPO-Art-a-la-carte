@@ -71,11 +71,11 @@ namespace PDollarGestureRecognizer
         private int LastSpite = -1;
 
         private GameManager gameManager; // Reference to GameManager
-        
+
         private System.Random rng = new System.Random();
 
         private int startingMoney = 0;
-    
+
         public void UpdateMoney(int money)
         {
             this.money = money;
@@ -107,7 +107,7 @@ namespace PDollarGestureRecognizer
         {
             return RecipeDescriptions;
         }
-        
+
         public string[] GetAllRecipeNames()
         {
             // Get all recipe names from GameManager (not just unlocked ones)
@@ -145,7 +145,7 @@ namespace PDollarGestureRecognizer
             }
 
             Debug.Log("Gestures assigned: " + string.Join(", ", RecipesGest));
-        }   
+        }
         void Awake()
         {
             // Access the GameManager singleton
@@ -170,9 +170,9 @@ namespace PDollarGestureRecognizer
                 trainingSet.Add(GestureIO.ReadGestureFromXML(gestureXml.text));
 
             // Load user custom gestures
-            string[] filePaths = Directory.GetFiles(Application.dataPath + @"/\PDollar\Resources\GestureSet\10-stylus-MEDIUM", "*.xml");
+            /* string[] filePaths = Directory.GetFiles(Application.dataPath + @"/\PDollar\Resources\GestureSet\10-stylus-MEDIUM", "*.xml");
             foreach (string filePath in filePaths)
-                trainingSet.Add(GestureIO.ReadGestureFromFile(filePath));
+                trainingSet.Add(GestureIO.ReadGestureFromFile(filePath)); */
 
             // Add listeners to the buttons
             recognizeButton.onClick.AddListener(OnRecognizeButtonClick);
@@ -244,15 +244,15 @@ namespace PDollarGestureRecognizer
             recognized = true;
             Gesture candidate = new Gesture(points.ToArray());
             Result gestureResult = PointCloudRecognizer.Classify(candidate, trainingSet.ToArray());
-            
+
             Debug.Log(gestureResult.GestureClass);
             if (gestureResult.GestureClass == wanted)
             {
                 streak += 1;
                 message = "Acertou";
-                if(streak < 2) streakMoney = 0;
-                else if(streak < 4) streakMoney = 1;
-                else if(streak < 6) streakMoney = 2;
+                if (streak < 2) streakMoney = 0;
+                else if (streak < 4) streakMoney = 1;
+                else if (streak < 6) streakMoney = 2;
                 else streakMoney = 3;
                 streakText.text = "Sequência: " + streak.ToString() + "\nBônus: " + streakMoney.ToString();
                 money += moneyPerOrder + streakMoney;
@@ -264,7 +264,7 @@ namespace PDollarGestureRecognizer
 
                 // Atualiza o dineiro no GameManager
                 gameManager.SetMoney(money);
-                
+
             }
             else
             {
@@ -333,10 +333,10 @@ namespace PDollarGestureRecognizer
         IEnumerator SpawnClients()
         {
             int numClientes = 10; // numeros de clientes para spawnar
-            for(int i =0 ; i < numClientes; i++)
+            for (int i = 0; i < numClientes; i++)
             {
                 SpawnClient();
-                
+
                 yield return new WaitUntil(() => wanted == null); // Wait until the client is served
             }
 
@@ -353,17 +353,17 @@ namespace PDollarGestureRecognizer
         }
         void SpawnClient()
         {
-            
-            newCliente = Instantiate(Cliente, ClienteSpawn.position, Quaternion.identity,ClienteSpawn);
+
+            newCliente = Instantiate(Cliente, ClienteSpawn.position, Quaternion.identity, ClienteSpawn);
             recipeIndex = rng.Next(Recipes.Length); // Random recipe index
-            moneyPerOrder = (gameManager.GetRecipeCost(Recipes[recipeIndex]))/10;//here is where the moneyperorder is set
-            
+            moneyPerOrder = (gameManager.GetRecipeCost(Recipes[recipeIndex])) / 10;//here is where the moneyperorder is set
+
             int spriteIndx = rng.Next(ClientesSprites.Length); // Fixed: use Length instead of Length-1
-            
+
             // Only avoid repeating if we have more than 1 sprite
             if (ClientesSprites.Length > 1)
             {
-                while (spriteIndx == LastSpite) 
+                while (spriteIndx == LastSpite)
                 {
                     spriteIndx = rng.Next(ClientesSprites.Length);
                 }
@@ -375,8 +375,9 @@ namespace PDollarGestureRecognizer
                 clienteScript.SetGestureName(RecipesGest[recipeIndex]);
                 Debug.Log(RecipesGest[recipeIndex] + " this is the gesture " + recipeIndex);
                 clienteScript.SetRecipeName(Recipes[recipeIndex]);
+                
                 Debug.Log(Recipes[recipeIndex] + " this is the recipe " + recipeIndex);
-                clienteScript.SetRecipeDescription(RecipeDescriptions[recipeIndex]);
+                clienteScript.SetRecipeDescription(RecipeDescriptions[FindRecipeIndex(Recipes[recipeIndex])]);
                 wanted = RecipesGest[recipeIndex];
             }
             else
@@ -385,6 +386,22 @@ namespace PDollarGestureRecognizer
             }
 
             LastSpite = spriteIndx; // Store the last sprite index
+        }
+
+        int FindRecipeIndex(string recipeName)
+        {
+            // Get all recipe names (not just unlocked ones) to find the correct index
+            string[] allRecipeNames = GetAllRecipeNames();
+            if (allRecipeNames == null) return -1;
+            
+            for (int i = 0; i < allRecipeNames.Length; i++)
+            {
+                if (allRecipeNames[i] == recipeName)
+                {
+                    return i;
+                }
+            }
+            return -1; // Recipe not found
         }
     }
 }

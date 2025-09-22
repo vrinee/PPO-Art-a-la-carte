@@ -87,7 +87,8 @@ public class Book : MonoBehaviour
             {
                 stripComponent.SetRecipeName(recipeNames[i]);
                 stripComponent.SetRecipeDescription(recipesDescription[recipeIndex]);
-                stripComponent.SetRecipeGest(recipesGest[recipeIndex]);
+                if (recipeNames.Length == 1) stripComponent.SetRecipeGest(recipesGest[0]);
+                else stripComponent.SetRecipeGest(recipesGest[recipeIndex]);
             }
             else
             {

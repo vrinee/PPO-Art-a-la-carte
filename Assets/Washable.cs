@@ -65,7 +65,7 @@ public class Washable : MonoBehaviour
             isWashed = true;
         }
         if (!isWashed) return;
-        if (isDragging) return;
+        //if (isDragging) return;
         if (other.CompareTag(targetTag))
         {
             cookingBehaviour.WashableDone();
