@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      colher_mx_esquerda_0: 1919790002132783149
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

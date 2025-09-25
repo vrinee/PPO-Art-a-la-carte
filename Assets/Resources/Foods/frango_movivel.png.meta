@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      frango_movivel_0: 5473630479236682202
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

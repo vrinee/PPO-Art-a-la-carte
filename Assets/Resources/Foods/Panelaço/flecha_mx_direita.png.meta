@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      flecha_mx_direita_0: 4661517237977472389
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

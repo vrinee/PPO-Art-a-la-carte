@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pote_frg_feito_cheio_0: 3064529555543340368
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

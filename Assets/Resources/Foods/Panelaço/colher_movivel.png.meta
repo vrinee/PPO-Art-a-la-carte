@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      colher_movivel_0: 7303996287076612598
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

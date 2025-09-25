@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      background_cozinhar_0: 2796103494095516667
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

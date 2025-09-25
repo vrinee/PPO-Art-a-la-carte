@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pedaco_frg_2_0: -2130491842889737425
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

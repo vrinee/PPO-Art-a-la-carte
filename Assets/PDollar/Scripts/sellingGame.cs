@@ -254,7 +254,7 @@ namespace PDollarGestureRecognizer
                 else if (streak < 4) streakMoney = 1;
                 else if (streak < 6) streakMoney = 2;
                 else streakMoney = 3;
-                streakText.text = "Sequência: " + streak.ToString() + "\nBônus: " + streakMoney.ToString();
+                streakText.text = "Sequência: " + streak.ToString() + " <sprite index=0>" + "\nBônus: " + streakMoney.ToString();
                 money += moneyPerOrder + streakMoney;
                 moneyText.text = "Dinheiro: " + money.ToString() + " <sprite index=0>";
                 moneyPerOrder = 69; //this is a default, the actual value is set in spawnClient
@@ -270,7 +270,7 @@ namespace PDollarGestureRecognizer
             {
                 streak = 0;
                 streakMoney = 0;
-                streakText.text = "Sequência: " + streak.ToString() + "\nBônus: " + streakMoney.ToString();
+                streakText.text = "Sequência: " + streak.ToString() + " <sprite index=0>" + "\nBônus: " + streakMoney.ToString();
                 message = "Errou";
                 moneyPerOrder -= 1;
             }

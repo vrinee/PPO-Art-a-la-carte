@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      travessa_vazia_0: 7074779086033029348
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

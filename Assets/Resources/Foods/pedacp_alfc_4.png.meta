@@ -172,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pedacp_alfc_4_0: 4069894562527766078
+      pedacp_alfc_4_1: 437722183271672400
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

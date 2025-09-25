@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      frango_cru_parado_0: 1382005926781406724
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bolha_conversa_0: -1268937809496497907
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
