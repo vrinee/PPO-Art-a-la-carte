@@ -251,5 +251,18 @@ public class GameManager : MonoBehaviour
             // Load the GameMenu scene
             SceneManager.LoadScene("GameMenu");
         }
+
+        // Unlock all recipes when pressing U
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            if (isRecipeReady != null)
+            {
+                for (int i = 0; i < isRecipeReady.Length; i++)
+                {
+                    isRecipeReady[i] = true;
+                }
+                Debug.Log("All recipes unlocked by input button (U key).");
+            }
+        }
     }
 }

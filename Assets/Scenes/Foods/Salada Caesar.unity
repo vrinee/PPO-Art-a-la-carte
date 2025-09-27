@@ -658,7 +658,7 @@ PrefabInstance:
       objectReference: {fileID: 3064747608008232248, guid: 77486f30c66813b45afa00e6a5cdf667, type: 3}
     - target: {fileID: 2052952605576228004, guid: 263b932941faaca4f87e9f331e2d3824, type: 3}
       propertyPath: 'sliceablesAmount.Array.data[0]'
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2052952605576228004, guid: 263b932941faaca4f87e9f331e2d3824, type: 3}
       propertyPath: 'sliceablesAmount.Array.data[1]'
@@ -4514,7 +4514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemTags:
   - Alface
-  itemAmounts: 10000000
+  itemAmounts: 0c000000
   itemGroups: 04000000
   states:
   - {fileID: 7260106388823096697, guid: 764f1650e66b55b45ab62d35255ce9f3, type: 3}
